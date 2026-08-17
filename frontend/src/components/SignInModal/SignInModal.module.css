@@ -1,0 +1,27 @@
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.switch {
+  margin-top: 16px;
+  text-align: center;
+  color: var(--color-gray);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.link {
+  color: var(--color-black);
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+}

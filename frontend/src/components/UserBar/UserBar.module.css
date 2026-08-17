@@ -1,0 +1,75 @@
+.wrap {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 8px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  border-radius: 30px;
+}
+
+.trigger img {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.name {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 148px;
+  padding: 16px;
+  background: var(--color-black);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  z-index: 20;
+}
+
+.menu button,
+.menu a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.menu li + li {
+  margin-top: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .trigger {
+    padding-right: 14px;
+    padding-left: 0;
+  }
+
+  .trigger img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .name {
+    max-width: 90px;
+    padding-left: 6px;
+  }
+}

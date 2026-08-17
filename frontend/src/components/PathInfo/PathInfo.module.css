@@ -1,0 +1,42 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 64px;
+  margin-bottom: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.home {
+  color: var(--color-gray);
+}
+
+.home:hover,
+.home:focus-visible {
+  color: var(--color-black);
+}
+
+.sep {
+  color: var(--color-gray);
+}
+
+.current {
+  color: var(--color-black);
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    margin-top: 64px;
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .nav {
+    margin-top: 80px;
+  }
+}

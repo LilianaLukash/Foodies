@@ -1,0 +1,23 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 32px 0 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .wrap {
+    flex-direction: row;
+    gap: 14px;
+    margin: 40px 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrap {
+    flex-direction: column;
+    width: 330px;
+    margin: 0;
+    gap: 14px;
+  }
+}

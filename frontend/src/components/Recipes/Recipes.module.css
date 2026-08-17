@@ -1,0 +1,37 @@
+.section {
+  padding-top: 64px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.layout {
+  display: grid;
+  gap: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .section {
+    padding-top: 100px;
+  }
+
+  .back {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .layout {
+    grid-template-columns: 330px 1fr;
+    align-items: start;
+    gap: 40px;
+  }
+}

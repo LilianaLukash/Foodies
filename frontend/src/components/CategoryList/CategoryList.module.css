@@ -1,0 +1,138 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  height: 250px;
+}
+
+.card,
+.allBtn {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+
+.card {
+  position: relative;
+  display: block;
+  background: var(--color-gray-light);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.2);
+  pointer-events: none;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 32px);
+}
+
+.label span {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.arrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  color: var(--color-white);
+}
+
+.allBtn {
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 768px) {
+  .list {
+    gap: 20px;
+  }
+
+  .item {
+    flex-basis: calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+    height: 369px;
+  }
+
+  .wideTablet {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .label {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  .label span {
+    padding: 10px 14px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .allBtn {
+    font-size: 20px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .item,
+  .wideTablet {
+    flex-basis: calc((100% - 40px) * 325 / 1240);
+    max-width: calc((100% - 40px) * 325 / 1240);
+  }
+
+  .wideDesktop {
+    flex-basis: calc((100% - 40px) * 590 / 1240);
+    max-width: calc((100% - 40px) * 590 / 1240);
+  }
+
+  .label {
+    left: 24px;
+    bottom: 24px;
+  }
+}

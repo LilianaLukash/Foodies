@@ -1,0 +1,24 @@
+.page {
+  padding-bottom: 20px;
+}
+
+.layout {
+  display: grid;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.cta {
+  width: 100%;
+  max-width: 394px;
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 1440px) {
+  .layout {
+    grid-template-columns: 394px 1fr;
+    align-items: start;
+    gap: 40px;
+  }
+}
+

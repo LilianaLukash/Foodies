@@ -1,0 +1,41 @@
+.bar {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-white);
+  border-radius: 30px;
+}
+
+.signIn,
+.signUp {
+  min-height: 38px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.signIn {
+  padding: 10px 16px;
+  color: var(--color-black);
+}
+
+.signUp {
+  padding: 10px 16px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  border-radius: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .signIn,
+  .signUp {
+    min-height: 46px;
+    padding: 14px 28px;
+  }
+
+  .signIn {
+    padding: 14px 30px;
+  }
+}

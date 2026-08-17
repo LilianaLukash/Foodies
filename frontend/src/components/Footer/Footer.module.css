@@ -1,0 +1,28 @@
+.footer {
+  margin-top: auto;
+}
+
+.bottom {
+  padding-top: 40px;
+  padding-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.copy {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-gray);
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .bottom {
+    padding-bottom: 16px;
+  }
+}

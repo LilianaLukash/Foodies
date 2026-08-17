@@ -1,0 +1,17 @@
+.wrap {
+  min-height: 40vh;
+  text-align: center;
+}
+
+.wrap h1 {
+  font-size: 72px;
+  font-weight: 800;
+}
+
+.wrap a {
+  display: inline-block;
+  margin-top: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: underline;
+}

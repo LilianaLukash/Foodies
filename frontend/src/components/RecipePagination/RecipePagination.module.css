@@ -1,0 +1,21 @@
+.list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  font-weight: 700;
+}
+
+.active,
+.btn:hover,
+.btn:focus-visible {
+  border-color: var(--color-black);
+}

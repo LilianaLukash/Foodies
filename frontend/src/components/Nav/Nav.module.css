@@ -1,0 +1,42 @@
+.list {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: 30px;
+  border: 1px solid transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.active {
+  border-color: var(--color-gray);
+}
+
+.onDark .active {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.drawerList {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawerList .link {
+  font-size: 14px;
+  color: var(--color-white);
+}
+
+.drawerList .active {
+  border-color: rgba(255, 255, 255, 0.2);
+}

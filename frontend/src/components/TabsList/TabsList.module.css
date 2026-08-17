@@ -1,0 +1,30 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 30px;
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+.tab {
+  position: relative;
+  padding-bottom: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.active {
+  color: var(--color-black);
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--color-black);
+}

@@ -1,0 +1,78 @@
+.card {
+  max-width: 394px;
+  padding: 30px 20px;
+  border: 1px solid var(--color-gray);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 80px;
+  margin: 0 auto 16px;
+}
+
+.avatarWrap img {
+  width: 80px !important;
+  height: 80px !important;
+}
+
+.camera {
+  position: absolute;
+  right: -4px;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-black);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.333;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.stats {
+  margin-top: 16px;
+  text-align: left;
+  display: grid;
+  gap: 6px;
+}
+
+.stats span {
+  color: var(--color-gray);
+  margin-right: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .card {
+    padding: 40px 20px;
+  }
+
+  .avatarWrap {
+    width: 120px;
+  }
+
+  .avatarWrap img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .camera {
+    width: 32px;
+    height: 32px;
+  }
+
+  .name {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
