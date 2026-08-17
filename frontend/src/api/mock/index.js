@@ -1,3 +1,5 @@
+import { DEFAULT_AVATAR } from '../../utils/helpers';
+
 const STORAGE_KEY = 'foodies-mock-db-v1';
 
 const img = {
@@ -418,7 +420,7 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
 
   if (verb === 'patch' && path === '/users/avatar') {
     const user = requireAuth(db, headers);
-    user.avatar = typeof data === 'string' ? data : user.avatar || '/images/avatar-default.svg';
+    user.avatar = typeof data === 'string' ? data : user.avatar || DEFAULT_AVATAR;
     writeDb(db);
     return publicUser(db, user, user);
   }

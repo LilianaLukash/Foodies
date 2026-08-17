@@ -8,7 +8,7 @@ const Icon = ({ name, className, size = 24, width, height }) => (
     height={height || size}
     aria-hidden="true"
   >
-    <use href={`/icons/sprite.svg#${name}`} />
+    <use href={`${import.meta.env.BASE_URL}icons/sprite.svg#${name}`} />
   </svg>
 );
 

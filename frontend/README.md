@@ -58,4 +58,6 @@ VITE_USE_MOCK=false
 - `/` — HomePage
 - `/recipe/:id` — RecipePage
 - `/recipe/add` — AddRecipePage (private; `/add` redirects here)
-- `/user/:id` — UserPage (private)
+## GitHub Pages
+
+Після пуша в `main` сайт збирається і публікується на https://lilianalukash.github.io/Foodies/ (mock API).

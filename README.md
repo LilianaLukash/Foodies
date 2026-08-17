@@ -2,6 +2,8 @@
 
 Командний проєкт: рецептний застосунок за макетом Foodies.
 
+**Сайт:** https://lilianalukash.github.io/Foodies/
+
 - [`frontend/`](./frontend/README.md) — React UI (готово до запуску з mock API)
 - `backend/` — Node.js API (наступний етап)
 

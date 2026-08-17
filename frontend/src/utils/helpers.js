@@ -45,5 +45,8 @@ export const normalizeUser = (user = {}) => ({
   isFollowing: Boolean(user.isFollowing ?? user.followingMe ?? false),
 });
 
-export const DEFAULT_AVATAR = '/images/avatar-default.svg';
 export const PAGE_LIMIT = 12;
+
+export const assetUrl = (path) => `${import.meta.env.BASE_URL}${String(path).replace(/^\//, '')}`;
+
+export const DEFAULT_AVATAR = assetUrl('images/avatar-default.svg');

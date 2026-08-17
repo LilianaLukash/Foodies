@@ -7,6 +7,7 @@ import UserBar from '../UserBar/UserBar';
 import Icon from '../Icon/Icon';
 import { useAppSelector } from '../../redux/hooks';
 import { selectIsLoggedIn } from '../../redux/auth/slice';
+import { assetUrl } from '../../utils/helpers';
 import css from './Header.module.css';
 
 const Header = ({ embedded = false }) => {
@@ -54,8 +55,8 @@ const Header = ({ embedded = false }) => {
           </div>
           <Nav inDrawer onNavigate={() => setMenuOpen(false)} />
           <div className={css.drawerArt} aria-hidden="true">
-            <img src="/images/hero/dish-small-1x.jpg" alt="" />
-            <img src="/images/hero/dish-large-1x.jpg" alt="" />
+            <img src={assetUrl('images/hero/dish-small-1x.jpg')} alt="" />
+            <img src={assetUrl('images/hero/dish-large-1x.jpg')} alt="" />
           </div>
         </div>
       ) : null}

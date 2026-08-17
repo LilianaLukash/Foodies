@@ -1,6 +1,7 @@
 import css from './RecipeIngredients.module.css';
+import { assetUrl } from '../../utils/helpers';
 
-const PLACEHOLDER = '/images/ingredient-placeholder.svg';
+const PLACEHOLDER = assetUrl('images/ingredient-placeholder.svg');
 
 const RecipeIngredients = ({ ingredients = [] }) => (
   <section className={css.section}>

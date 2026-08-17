@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectIsLoggedIn } from '../../redux/auth/slice';
 import { openModal } from '../../redux/modals/slice';
+import { assetUrl } from '../../utils/helpers';
 import css from './Hero.module.css';
 
 const Hero = () => {
@@ -34,8 +35,8 @@ const Hero = () => {
           <div className={css.dishSmallWrap}>
             <img
               className={css.dishSmall}
-              src="/images/hero/dish-small-1x.jpg"
-              srcSet="/images/hero/dish-small-1x.jpg 1x, /images/hero/dish-small-2x.jpg 2x"
+              src={assetUrl('images/hero/dish-small-1x.jpg')}
+              srcSet={`${assetUrl('images/hero/dish-small-1x.jpg')} 1x, ${assetUrl('images/hero/dish-small-2x.jpg')} 2x`}
               alt=""
               width="128"
               height="116"
@@ -45,8 +46,8 @@ const Hero = () => {
           <div className={css.dishLargeWrap}>
             <img
               className={css.dishLarge}
-              src="/images/hero/dish-large-1x.jpg"
-              srcSet="/images/hero/dish-large-1x.jpg 1x, /images/hero/dish-large-2x.jpg 2x"
+              src={assetUrl('images/hero/dish-large-1x.jpg')}
+              srcSet={`${assetUrl('images/hero/dish-large-1x.jpg')} 1x, ${assetUrl('images/hero/dish-large-2x.jpg')} 2x`}
               alt=""
               width="302"
               height="273"
