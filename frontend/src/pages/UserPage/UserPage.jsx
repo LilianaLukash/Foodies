@@ -30,6 +30,11 @@ import {
 import { getErrorMessage, getId, PAGE_LIMIT } from '../../utils/helpers';
 import css from './UserPage.module.css';
 
+const EMPTY_FOLLOWERS =
+  'There are currently no followers on your account. Please engage our visitors with interesting content and draw their attention to your profile.';
+const EMPTY_FOLLOWING =
+  'Your account currently has no subscriptions to other users. Learn more about our users and select those whose content interests you.';
+
 const UserPage = () => {
   const { id } = useParams();
   const currentUser = useAppSelector(selectUser);
@@ -186,10 +191,14 @@ const UserPage = () => {
               onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDelete : undefined}
               onFollow={onFollow}
               showUnfollowOnly={tab === 'following'}
-              emptyText="Nothing here yet."
+              emptyText={
+                tab === 'followers' ? EMPTY_FOLLOWERS : tab === 'following' ? EMPTY_FOLLOWING : 'Nothing here yet.'
+              }
             />
           )}
-          <ListPagination page={page} totalPages={list.totalPages} onChange={setPage} />
+          {!loading && list.items.length > 0 ? (
+            <ListPagination page={page} totalPages={list.totalPages} onChange={setPage} />
+          ) : null}
         </section>
       </div>
     </div>

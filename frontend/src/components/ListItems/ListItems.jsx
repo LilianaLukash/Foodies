@@ -4,7 +4,7 @@ import css from './ListItems.module.css';
 
 const ListItems = ({ type, items, onDelete, onFollow, emptyText, showUnfollowOnly = false }) => {
   if (!items.length) {
-    return <p className={css.empty}>{emptyText}</p>;
+    return <p className={type === 'users' ? css.emptyUsers : css.empty}>{emptyText}</p>;
   }
 
   return (
