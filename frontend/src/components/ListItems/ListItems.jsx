@@ -8,7 +8,7 @@ const ListItems = ({ type, items, onDelete, onFollow, emptyText, showUnfollowOnl
   }
 
   return (
-    <ul className={css.list}>
+    <ul className={type === 'users' ? css.listUsers : css.list}>
       {items.map((item) => (
         <li key={item.id || item._id}>
           {type === 'users' ? (

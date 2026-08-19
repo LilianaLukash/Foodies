@@ -4,6 +4,17 @@
   margin-top: 32px;
 }
 
+.listUsers {
+  display: grid;
+  margin-top: 32px;
+}
+
+.listUsers li:not(:last-child) {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-gray);
+}
+
 .empty {
   margin-top: 32px;
   color: var(--color-gray);
@@ -23,6 +34,11 @@
 @media screen and (min-width: 768px) {
   .list {
     gap: 32px;
+  }
+
+  .listUsers li:not(:last-child) {
+    padding-bottom: 40px;
+    margin-bottom: 40px;
   }
 
   .emptyUsers {
