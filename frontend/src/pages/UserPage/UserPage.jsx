@@ -200,6 +200,8 @@ const UserPage = () => {
             onChange={(value) => {
               setTab(value);
               setPage(1);
+              setList({ items: [], totalPages: 1 });
+              setLoading(true);
             }}
           />
           {loading ? (
