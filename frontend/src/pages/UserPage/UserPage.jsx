@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import PathInfo from '../../components/PathInfo/PathInfo';
@@ -62,6 +62,7 @@ const UserPage = () => {
   const [page, setPage] = useState(1);
   const [list, setList] = useState({ items: [], totalPages: 1 });
   const [loading, setLoading] = useState(true);
+  const silentLoadRef = useRef(false);
 
   const refreshProfile = useCallback(async () => {
     const data = await getUserById(id);
@@ -69,7 +70,9 @@ const UserPage = () => {
   }, [id]);
 
   const loadList = useCallback(async () => {
-    setLoading(true);
+    const silent = silentLoadRef.current;
+    silentLoadRef.current = false;
+    if (!silent) setLoading(true);
     try {
       let payload;
       if (tab === 'recipes') payload = isOwn ? await getOwnRecipes(page) : await getUserRecipes(id, page);
@@ -80,7 +83,7 @@ const UserPage = () => {
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [tab, page, id, isOwn]);
 
@@ -111,15 +114,27 @@ const UserPage = () => {
   };
 
   const onFollow = async (user, isFollowing) => {
+    const targetId = getId(user);
+    if (!targetId || targetId === getId(currentUser)) return;
     try {
-      if (isFollowing) await unfollowUser(getId(user));
-      else await followUser(getId(user));
+      if (isFollowing) await unfollowUser(targetId);
+      else await followUser(targetId);
+
       if (tab === 'following' && isFollowing) {
-        const remaining = list.items.length - 1;
-        if (remaining === 0 && page > 1) setPage((prev) => prev - 1);
-        else await loadList();
+        if (list.items.length === 1 && page > 1) {
+          silentLoadRef.current = true;
+          setPage((prev) => prev - 1);
+        } else {
+          silentLoadRef.current = true;
+          await loadList();
+        }
       } else {
-        await loadList();
+        setList((prev) => ({
+          ...prev,
+          items: prev.items.map((item) =>
+            getId(item) === targetId ? { ...item, isFollowing: !isFollowing } : item,
+          ),
+        }));
       }
       await refreshProfile();
     } catch (error) {
@@ -133,6 +148,10 @@ const UserPage = () => {
       if (profile.isFollowing) await unfollowUser(id);
       else await followUser(id);
       await refreshProfile();
+      if (tab === 'followers') {
+        silentLoadRef.current = true;
+        await loadList();
+      }
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -190,6 +209,7 @@ const UserPage = () => {
               items={list.items}
               onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDelete : undefined}
               onFollow={onFollow}
+              currentUserId={getId(currentUser)}
               showUnfollowOnly={tab === 'following'}
               emptyText={
                 tab === 'followers' ? EMPTY_FOLLOWERS : tab === 'following' ? EMPTY_FOLLOWING : 'Nothing here yet.'

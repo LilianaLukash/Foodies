@@ -4,9 +4,10 @@ import Icon from '../Icon/Icon';
 import { getId } from '../../utils/helpers';
 import css from './UserCard.module.css';
 
-const UserCard = ({ user, onFollow, showUnfollowOnly = false }) => {
+const UserCard = ({ user, onFollow, showUnfollowOnly = false, currentUserId }) => {
   const id = getId(user);
   const following = Boolean(user.isFollowing);
+  const isSelf = Boolean(currentUserId) && id === currentUserId;
 
   return (
     <article className={css.card}>
@@ -19,7 +20,7 @@ const UserCard = ({ user, onFollow, showUnfollowOnly = false }) => {
             <h3>{user.name}</h3>
             <p>Own recipes: {user.recipesCount}</p>
           </div>
-          {!showUnfollowOnly || following ? (
+          {!isSelf && (!showUnfollowOnly || following) ? (
             <button className={css.follow} type="button" onClick={() => onFollow(user, following)}>
               {following ? 'Unfollow' : 'Follow'}
             </button>
