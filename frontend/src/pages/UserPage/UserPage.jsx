@@ -27,13 +27,14 @@ import {
   removeFavorite,
   unfollowUser,
 } from '../../api/services';
-import { getErrorMessage, getId, PAGE_LIMIT } from '../../utils/helpers';
+import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './UserPage.module.css';
 
 const EMPTY_FOLLOWERS =
   'There are currently no followers on your account. Please engage our visitors with interesting content and draw their attention to your profile.';
 const EMPTY_FOLLOWING =
   'Your account currently has no subscriptions to other users. Learn more about our users and select those whose content interests you.';
+const PROFILE_USERS_LIMIT = 5;
 
 const UserPage = () => {
   const { id } = useParams();
@@ -77,8 +78,8 @@ const UserPage = () => {
       let payload;
       if (tab === 'recipes') payload = isOwn ? await getOwnRecipes(page) : await getUserRecipes(id, page);
       if (tab === 'favorites') payload = await getFavoriteRecipes(page);
-      if (tab === 'followers') payload = await getFollowers(id, page);
-      if (tab === 'following') payload = await getFollowing(id, page);
+      if (tab === 'followers') payload = await getFollowers(id, page, PROFILE_USERS_LIMIT);
+      if (tab === 'following') payload = await getFollowing(id, page, PROFILE_USERS_LIMIT);
       setList(asPage(payload, ['recipes', 'users', 'followers', 'following']));
     } catch (error) {
       toast.error(getErrorMessage(error));
