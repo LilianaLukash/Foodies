@@ -5,7 +5,7 @@ export const registerUser = (payload) => http.post('/auth/register', payload);
 export const loginUser = (payload) => http.post('/auth/login', payload);
 export const logoutUser = () => http.post('/auth/logout');
 
-export const getCurrentUser = () => http.get('/users/current');
+export const getCurrentUser = () => http.get('/users/me');
 export const getUserById = (id) => http.get(`/users/${id}`);
 
 export const updateAvatar = async (file) => {
