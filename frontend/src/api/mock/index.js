@@ -1,6 +1,6 @@
 import { DEFAULT_AVATAR } from '../../utils/helpers';
 
-const STORAGE_KEY = 'foodies-mock-db-v1';
+const STORAGE_KEY = 'foodies-mock-db-v2';
 
 const img = {
   beef: 'https://www.themealdb.com/images/category/beef.png',
@@ -86,7 +86,7 @@ const usersSeed = [
     email: 'nadiia@foodies.test',
     password: '12345678',
     avatar: '',
-    followingIds: ['u2'],
+    followingIds: ['u2', 'u4', 'u5', 'u6', 'u7', 'u8'],
     favoriteIds: ['r1', 'r4'],
   },
   {
@@ -106,6 +106,51 @@ const usersSeed = [
     avatar: 'https://i.pravatar.cc/160?img=12',
     followingIds: [],
     favoriteIds: ['r1'],
+  },
+  {
+    id: 'u4',
+    name: 'Sofia',
+    email: 'sofia@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=5',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u5',
+    name: 'Taras',
+    email: 'taras@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=15',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u6',
+    name: 'Iryna',
+    email: 'iryna@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=20',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u7',
+    name: 'Andrii',
+    email: 'andrii@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=33',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u8',
+    name: 'Oksana',
+    email: 'oksana@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=47',
+    followingIds: ['u1'],
+    favoriteIds: [],
   },
 ];
 
@@ -250,6 +295,42 @@ const recipesSeed = [
       { id: 'ing-4', name: 'Pork', measure: '1.2 kg', img: img.ingredient('Pork') },
       { id: 'ing-7', name: 'Garlic', measure: '4 cloves', img: img.ingredient('Garlic') },
     ],
+  },
+  {
+    id: 'r9',
+    title: 'Berry parfait',
+    category: 'Desserts',
+    area: 'American',
+    time: 15,
+    description: 'Layers of yogurt and berries for a light finish.',
+    instructions: 'Layer yogurt and berries. Chill and serve.',
+    thumb: img.meal('rqvwxt1511382804'),
+    ownerId: 'u4',
+    ingredients: [{ id: 'ing-16', name: 'Yogurt', measure: '200 g', img: img.ingredient('Yogurt') }],
+  },
+  {
+    id: 'r10',
+    title: 'Herb omelette',
+    category: 'Breakfast',
+    area: 'French',
+    time: 10,
+    description: 'A quick omelette with fresh herbs.',
+    instructions: 'Beat eggs, cook gently, fold in herbs.',
+    thumb: img.meal('hqeco91645297366'),
+    ownerId: 'u5',
+    ingredients: [{ id: 'ing-11', name: 'Egg', measure: '3 pcs', img: img.ingredient('Egg') }],
+  },
+  {
+    id: 'r11',
+    title: 'Tomato bruschetta',
+    category: 'Starter',
+    area: 'Italian',
+    time: 20,
+    description: 'Toasted bread with tomatoes and basil.',
+    instructions: 'Toast bread, top with tomatoes and basil.',
+    thumb: img.meal('uypkoi1625563909'),
+    ownerId: 'u6',
+    ingredients: [{ id: 'ing-6', name: 'Tomato', measure: '2 pcs', img: img.ingredient('Tomato') }],
   },
 ];
 

@@ -1,0 +1,13 @@
+.wrap {
+  margin-top: 32px;
+}
+
+.wrap ul {
+  margin-top: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .wrap {
+    margin-top: 40px;
+  }
+}

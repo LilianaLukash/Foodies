@@ -1,17 +1,21 @@
 .list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px 30px;
-  border-bottom: 1px solid var(--color-gray-light);
+  flex-wrap: nowrap;
+  gap: 30px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-gray);
 }
 
 .tab {
   position: relative;
+  flex-shrink: 0;
   padding-bottom: 14px;
   font-size: 18px;
   font-weight: 800;
+  line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--color-gray);
 }
 
@@ -27,4 +31,16 @@
   bottom: -1px;
   height: 2px;
   background: var(--color-black);
+}
+
+@media screen and (min-width: 768px) {
+  .list {
+    gap: 40px;
+    overflow: visible;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    font-size: 20px;
+  }
 }

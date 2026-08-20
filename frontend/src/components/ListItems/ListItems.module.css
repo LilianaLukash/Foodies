@@ -4,13 +4,48 @@
   margin-top: 32px;
 }
 
+.listUsers {
+  display: grid;
+  margin-top: 32px;
+}
+
+.listUsers li:not(:last-child) {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-gray);
+}
+
 .empty {
   margin-top: 32px;
   color: var(--color-gray);
 }
 
+.emptyUsers {
+  margin: 80px auto 0;
+  max-width: 343px;
+  color: var(--color-gray);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
   .list {
     gap: 32px;
+  }
+
+  .listUsers li:not(:last-child) {
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+  }
+
+  .emptyUsers {
+    margin-top: 140px;
+    max-width: 610px;
+    color: var(--color-dark);
+    font-size: 16px;
+    line-height: 24px;
   }
 }

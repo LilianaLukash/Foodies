@@ -1,29 +1,61 @@
 .card {
   display: grid;
-  grid-template-columns: 60px 1fr auto;
-  gap: 12px;
-  align-items: center;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  min-height: 90px;
+}
+
+.person {
+  display: flex;
+  gap: 16px;
+  align-items: start;
+}
+
+.avatarWrap img {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: start;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .card h3 {
   font-size: 16px;
   font-weight: 800;
+  line-height: 24px;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+  color: var(--color-black);
 }
 
 .card p {
-  margin: 4px 0 8px;
   color: var(--color-gray);
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.02em;
 }
 
 .follow {
-  min-height: 36px;
   padding: 8px 16px;
-  border: 1px solid var(--color-black);
+  border: 1px solid var(--color-gray);
   border-radius: 30px;
-  font-size: 12px;
+  background: transparent;
+  color: var(--color-dark);
+  font-size: 14px;
   font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
@@ -37,24 +69,76 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--color-gray-light);
-  border-radius: 50%;
+  padding: 10px;
+  border: 1px solid var(--color-gray);
+  border-radius: 30px;
+}
+
+.arrow svg {
+  width: 16px;
+  height: 16px;
 }
 
 @media screen and (min-width: 768px) {
   .card {
-    grid-template-columns: 60px 1fr auto auto;
+    grid-template-columns: auto 1fr auto;
+    min-height: 100px;
+    column-gap: 60px;
+  }
+
+  .avatarWrap img {
+    width: 85px !important;
+    height: 85px !important;
+  }
+
+  .card h3 {
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .card p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .follow {
+    padding: 10px 24px;
+    color: var(--color-black);
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .recipes {
     display: flex;
-    gap: 8px;
+    gap: 12px;
+    justify-self: start;
   }
 
   .recipes img {
-    width: 64px;
-    height: 64px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    border-radius: 15px;
+    border-radius: var(--radius-sm);
+  }
+
+  .recipes img:nth-child(4) {
+    display: none;
+  }
+
+  .arrow {
+    width: 42px;
+    height: 42px;
+    padding: 12px;
+  }
+
+  .arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .recipes img:nth-child(4) {
+    display: block;
   }
 }
