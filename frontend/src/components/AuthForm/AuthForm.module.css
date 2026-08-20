@@ -9,42 +9,56 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .field input {
   width: 100%;
-  min-height: 48px;
-  padding: 14px 40px 14px 0;
-  border: none;
-  border-bottom: 1px solid var(--color-gray-light);
+  height: 48px;
+  padding: 0 46px 0 16px;
+  border: 1px solid var(--color-gray);
+  border-radius: 24px;
   background: transparent;
   outline: none;
+  font: inherit;
 }
 
 .field input::placeholder {
   color: var(--color-gray);
 }
 
+.field input:focus {
+  border-color: var(--color-black);
+}
+
 .invalid {
-  border-bottom-color: var(--color-error) !important;
+  border-color: var(--color-error) !important;
 }
 
 .error {
+  margin-top: 4px;
+  padding-left: 16px;
   color: var(--color-error);
   font-size: 12px;
+  line-height: 1.2;
 }
 
 .eye {
   position: absolute;
   top: 14px;
-  right: 0;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--color-black);
+  cursor: pointer;
 }
 
 .form button[type='submit'] {
-  margin-top: 26px;
   width: 100%;
+  margin-top: 18px;
 }
 
 @media screen and (min-width: 768px) {
