@@ -34,6 +34,12 @@ const EMPTY_FOLLOWERS =
   'There are currently no followers on your account. Please engage our visitors with interesting content and draw their attention to your profile.';
 const EMPTY_FOLLOWING =
   'Your account currently has no subscriptions to other users. Learn more about our users and select those whose content interests you.';
+const EMPTY_OWN_RECIPES =
+  'Nothing has been added to your recipes list yet. Create your first recipe and share your culinary art with others.';
+const EMPTY_USER_RECIPES =
+  'This user has not added any recipes yet. Follow the profile to be the first to know when a new one shows up.';
+const EMPTY_FAVORITES =
+  'Nothing has been added to your favorite recipes list yet. Please browse our recipes and add your favorites for easy access in the future.';
 const PROFILE_USERS_LIMIT = 5;
 
 const UserPage = () => {
@@ -55,6 +61,16 @@ const UserPage = () => {
             { value: 'recipes', label: 'Recipes' },
             { value: 'followers', label: 'Followers' },
           ],
+    [isOwn],
+  );
+
+  const EMPTY_TEXTS = useMemo(
+    () => ({
+      recipes: isOwn ? EMPTY_OWN_RECIPES : EMPTY_USER_RECIPES,
+      favorites: EMPTY_FAVORITES,
+      followers: EMPTY_FOLLOWERS,
+      following: EMPTY_FOLLOWING,
+    }),
     [isOwn],
   );
 
@@ -106,8 +122,15 @@ const UserPage = () => {
       if (tab === 'favorites') await removeFavorite(recipeId);
       else await deleteRecipe(recipeId);
       const remaining = list.items.length - 1;
+      setList((prev) => ({
+        ...prev,
+        items: prev.items.filter((item) => getId(item) !== recipeId),
+      }));
+
+      silentLoadRef.current = true;
       if (remaining === 0 && page > 1) setPage((prev) => prev - 1);
       else await loadList();
+
       await refreshProfile();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -211,12 +234,11 @@ const UserPage = () => {
               type={tab === 'followers' || tab === 'following' ? 'users' : 'recipes'}
               items={list.items}
               onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDelete : undefined}
+              deleteLabel={tab === 'favorites' ? 'Remove from favorites' : 'Delete recipe'}
               onFollow={onFollow}
               currentUserId={getId(currentUser)}
               showUnfollowOnly={tab === 'following'}
-              emptyText={
-                tab === 'followers' ? EMPTY_FOLLOWERS : tab === 'following' ? EMPTY_FOLLOWING : 'Nothing here yet.'
-              }
+              emptyText={EMPTY_TEXTS[tab]}
             />
           )}
           {!loading && list.items.length > 0 ? (

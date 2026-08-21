@@ -11,11 +11,11 @@ export const getUserById = (id) => http.get(`/users/${id}`);
 export const updateAvatar = async (file) => {
   if (import.meta.env.VITE_USE_MOCK === 'true') {
     const dataUrl = await fileToDataUrl(file);
-    return http.patch('/users/avatar', dataUrl);
+    return http.patch('/users/me/avatar', dataUrl);
   }
   const formData = new FormData();
   formData.append('avatar', file);
-  return http.patch('/users/avatar', formData);
+  return http.patch('/users/me/avatar', formData);
 };
 
 export const getFollowers = (id, page = 1, limit = PAGE_LIMIT) =>

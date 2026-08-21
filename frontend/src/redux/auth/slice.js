@@ -9,6 +9,7 @@ import {
 } from '../../api/services';
 import {
   clearAuthTokens,
+  getAccessToken,
   getRefreshToken,
   setAuthTokens,
 } from '../../api/http';
@@ -75,10 +76,8 @@ export const logout = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
-    const refreshToken = getRefreshToken();
-
-    if (!refreshToken) {
-      return thunkAPI.rejectWithValue('No refresh token');
+    if (!getAccessToken() && !getRefreshToken()) {
+      return thunkAPI.rejectWithValue('No token');
     }
 
     try {
@@ -115,7 +114,7 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     isLoggedIn: false,
-    isRefreshing: false,
+    isRefreshing: true,
     error: null,
   },
 
