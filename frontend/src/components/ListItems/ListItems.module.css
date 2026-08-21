@@ -15,11 +15,7 @@
   border-bottom: 1px solid var(--color-gray);
 }
 
-.empty {
-  margin-top: 32px;
-  color: var(--color-gray);
-}
-
+.empty,
 .emptyUsers {
   margin: 80px auto 0;
   max-width: 343px;
@@ -41,6 +37,7 @@
     margin-bottom: 40px;
   }
 
+  .empty,
   .emptyUsers {
     margin-top: 140px;
     max-width: 610px;

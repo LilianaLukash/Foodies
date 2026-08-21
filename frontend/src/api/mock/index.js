@@ -467,7 +467,11 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     const token = tokenFor(user.id);
     db.sessions[user.id] = token;
     writeDb(db);
-    return { token, user: publicUser(db, user, user) };
+    return {
+      accessToken: token,
+      refreshToken: token,
+      user: publicUser(db, user, user),
+    };
   }
 
   if (verb === 'post' && path === '/auth/login') {
@@ -476,7 +480,20 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     const token = tokenFor(user.id);
     db.sessions[user.id] = token;
     writeDb(db);
-    return { token, user: publicUser(db, user, user) };
+    return {
+      accessToken: token,
+      refreshToken: token,
+      user: publicUser(db, user, user),
+    };
+  }
+
+  if (verb === 'post' && path === '/auth/refresh') {
+    const user = userFromToken(db, data?.refreshToken);
+    if (!user) throw httpError(401, 'Invalid refresh token');
+    const token = tokenFor(user.id);
+    db.sessions[user.id] = token;
+    writeDb(db);
+    return { accessToken: token };
   }
 
   if (verb === 'post' && path === '/auth/logout') {
@@ -486,7 +503,7 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     return { message: 'Logged out' };
   }
 
-  if (verb === 'get' && path === '/users/current') {
+  if (verb === 'get' && path === '/users/me') {
     const user = requireAuth(db, headers);
     return publicUser(db, user, user);
   }
@@ -499,7 +516,7 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     return publicUser(db, user, current);
   }
 
-  if (verb === 'patch' && path === '/users/avatar') {
+  if (verb === 'patch' && path === '/users/me/avatar') {
     const user = requireAuth(db, headers);
     user.avatar = typeof data === 'string' ? data : user.avatar || DEFAULT_AVATAR;
     writeDb(db);
@@ -555,12 +572,16 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
   if (verb === 'get' && path === '/testimonials') return testimonialsSeed;
 
   if (verb === 'get' && path === '/recipes/popular') {
+    const current = userFromToken(db, (headers.Authorization || '').replace('Bearer ', ''));
     const ranked = [...db.recipes].sort((a, b) => {
       const aCount = db.users.filter((user) => user.favoriteIds.includes(a.id)).length;
       const bCount = db.users.filter((user) => user.favoriteIds.includes(b.id)).length;
       return bCount - aCount;
     });
-    return ranked.slice(0, 4).map((recipe) => withOwner(db, recipe));
+    return ranked.slice(0, 4).map((recipe) => ({
+      ...withOwner(db, recipe),
+      isFavorite: Boolean(current?.favoriteIds.includes(recipe.id)),
+    }));
   }
 
   if (verb === 'get' && path === '/recipes/own') {

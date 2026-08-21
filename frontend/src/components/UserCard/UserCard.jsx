@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Avatar from '../Avatar/Avatar';
 import Icon from '../Icon/Icon';
-import { getId } from '../../utils/helpers';
+import { getId, recipeImage } from '../../utils/helpers';
 import css from './UserCard.module.css';
 
 const UserCard = ({ user, onFollow, showUnfollowOnly = false, currentUserId }) => {
@@ -29,7 +29,7 @@ const UserCard = ({ user, onFollow, showUnfollowOnly = false, currentUserId }) =
       </div>
       <div className={css.recipes}>
         {(user.recipes || []).slice(0, 4).map((recipe) => (
-          <img key={getId(recipe)} src={recipe.thumb} alt={recipe.title} />
+          <img key={getId(recipe)} src={recipeImage(recipe)} alt={recipe.title} />
         ))}
       </div>
       <Link className={css.arrow} to={`/user/${id}`} aria-label={`Open ${user.name} profile`}>

@@ -6,9 +6,9 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/slice';
 import { openModal } from '../../redux/modals/slice';
 import { addFavorite, removeFavorite } from '../../api/services';
-import { getErrorMessage, getId } from '../../utils/helpers';
+import { getErrorMessage, getId, recipeImage } from '../../utils/helpers';
 import css from './RecipeCard.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const RecipeCard = ({ recipe, onFavoriteChange }) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -20,6 +20,9 @@ const RecipeCard = ({ recipe, onFavoriteChange }) => {
   const ownerId = getId(owner);
   const [favorite, setFavorite] = useState(Boolean(recipe.isFavorite));
   const [pending, setPending] = useState(false);
+
+  // the same recipe can be toggled elsewhere on the page
+  useEffect(() => setFavorite(Boolean(recipe.isFavorite)), [recipe.isFavorite]);
 
   const requireAuth = () => {
     if (isLoggedIn) return true;
@@ -51,7 +54,7 @@ const RecipeCard = ({ recipe, onFavoriteChange }) => {
     <article className={css.card}>
       <img
         className={css.image}
-        src={recipe.thumb || recipe.preview || recipe.img}
+        src={recipeImage(recipe)}
         alt={recipe.title}
         loading="lazy"
       />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Button from '../Button/Button';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -8,12 +8,14 @@ import { addFavorite, removeFavorite } from '../../api/services';
 import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './RecipePreparation.module.css';
 
-const RecipePreparation = ({ recipe }) => {
+const RecipePreparation = ({ recipe, onFavoriteChange }) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
   const [favorite, setFavorite] = useState(Boolean(recipe.isFavorite));
   const [pending, setPending] = useState(false);
   const id = getId(recipe);
+
+  useEffect(() => setFavorite(Boolean(recipe.isFavorite)), [recipe.isFavorite]);
 
   const onToggle = async () => {
     if (!isLoggedIn) {
@@ -24,7 +26,8 @@ const RecipePreparation = ({ recipe }) => {
     try {
       if (favorite) await removeFavorite(id);
       else await addFavorite(id);
-      setFavorite((prev) => !prev);
+      setFavorite(!favorite);
+      onFavoriteChange?.(id, !favorite);
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {

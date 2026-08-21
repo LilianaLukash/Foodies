@@ -19,3 +19,13 @@
 .btn:focus-visible {
   border-color: var(--color-black);
 }
+
+.ellipsis {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 24px;
+  height: 40px;
+  color: var(--color-gray);
+  font-weight: 700;
+}

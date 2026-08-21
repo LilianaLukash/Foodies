@@ -3,7 +3,7 @@ import Avatar from '../Avatar/Avatar';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectIsLoggedIn } from '../../redux/auth/slice';
 import { openModal } from '../../redux/modals/slice';
-import { getId } from '../../utils/helpers';
+import { getId, recipeImage } from '../../utils/helpers';
 import css from './RecipeMainInfo.module.css';
 
 const RecipeMainInfo = ({ recipe, children }) => {
@@ -24,7 +24,7 @@ const RecipeMainInfo = ({ recipe, children }) => {
     <div className={css.wrap}>
       <img
         className={css.image}
-        src={recipe.thumb || recipe.preview}
+        src={recipeImage(recipe)}
         alt={recipe.title}
       />
       <div className={css.content}>
