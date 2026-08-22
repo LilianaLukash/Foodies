@@ -29,9 +29,11 @@ const HomePage = () => {
       {selectedCategory ? (
         <Recipes category={selectedCategory} onBack={() => setSelectedCategory(null)} />
       ) : (
-        <Categories categories={categories} onSelect={onSelect} />
+        <>
+          <Categories categories={categories} onSelect={onSelect} />
+          <Testimonials />
+        </>
       )}
-      <Testimonials />
     </>
   );
 };
