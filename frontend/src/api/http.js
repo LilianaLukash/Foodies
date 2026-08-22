@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { STORAGE_KEYS } from '@constants';
+import { storage } from '@utils/storage';
 import { mockRequest } from './mock';
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
@@ -8,12 +10,12 @@ const axiosAPI = axios.create({
   baseURL: BASE_URL,
 });
 
-let authToken = localStorage.getItem('token');
+let authToken = storage.get(STORAGE_KEYS.TOKEN);
 
 export const setAuthToken = (token) => {
   authToken = token || null;
-  if (token) localStorage.setItem('token', token);
-  else localStorage.removeItem('token');
+  if (token) storage.set(STORAGE_KEYS.TOKEN, token);
+  else storage.remove(STORAGE_KEYS.TOKEN);
 };
 
 axiosAPI.interceptors.request.use((config) => {

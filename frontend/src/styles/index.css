@@ -7,7 +7,7 @@
   --color-white: #ffffff;
   --color-gray: #bfbebe;
   --color-gray-light: #e8e8e8;
-  --color-error: #bf0a0a;
+  --color-error: #ae0000;
   --color-overlay: rgba(5, 5, 5, 0.6);
   --radius-lg: 30px;
   --radius-md: 20px;
@@ -15,6 +15,8 @@
   --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --container-pad: 16px;
   --page-inset: 8px;
+  --tablet: 768px;
+  --desktop: 1440px;
 }
 
 *,
@@ -108,7 +110,7 @@ button {
   padding: 0 var(--container-pad);
 }
 
-@media screen and (min-width: 768px) {
+@media (--tablet) {
   :root {
     --container-pad: 32px;
     --page-inset: 16px;
@@ -120,17 +122,17 @@ button {
   }
 
   .container {
-    max-width: 768px;
+    max-width: var(--tablet);
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media (--desktop) {
   :root {
     --container-pad: 80px;
     --page-inset: 20px;
   }
 
   .container {
-    max-width: 1440px;
+    max-width: var(--desktop);
   }
 }

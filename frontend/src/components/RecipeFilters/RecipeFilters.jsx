@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import SelectField from '../SelectField/SelectField';
+import Select from '../Select/Select';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchAreas, fetchIngredients, selectAreas, selectIngredients } from '../../redux/filters/slice';
 import css from './RecipeFilters.module.css';
@@ -16,13 +16,13 @@ const RecipeFilters = ({ ingredient, area, onChange }) => {
 
   return (
     <div className={css.wrap}>
-      <SelectField
+      <Select
         options={ingredients}
         value={ingredient}
         onChange={(value) => onChange({ ingredient: value, area })}
         placeholder="Ingredients"
       />
-      <SelectField
+      <Select
         options={areas}
         value={area}
         onChange={(value) => onChange({ ingredient, area: value })}

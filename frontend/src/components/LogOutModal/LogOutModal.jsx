@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { STORAGE_KEYS } from '@constants';
+import { storage } from '@utils/storage';
 import Button from '../Button/Button';
 import { useAppDispatch } from '../../redux/hooks';
 import { logout } from '../../redux/auth/slice';
@@ -14,7 +16,7 @@ const LogOutModal = () => {
   const onLogout = async () => {
     await dispatch(logout());
     await persistor.purge();
-    localStorage.removeItem('token');
+    storage.remove(STORAGE_KEYS.TOKEN);
     dispatch(closeModal());
     navigate('/');
     toast.success('You have been logged out');

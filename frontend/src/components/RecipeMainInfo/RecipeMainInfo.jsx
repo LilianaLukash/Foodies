@@ -24,7 +24,7 @@ const RecipeMainInfo = ({ recipe, children }) => {
     <div className={css.wrap}>
       <img
         className={css.image}
-        src={recipe.thumb || recipe.preview}
+        src={recipe.mainImage || recipe.thumb || recipe.preview}
         alt={recipe.title}
       />
       <div className={css.content}>
