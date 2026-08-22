@@ -40,7 +40,7 @@ export const getFavoriteRecipes = (page = 1, limit = PAGE_LIMIT) =>
 export const getUserRecipes = (id, page = 1, limit = PAGE_LIMIT) =>
   http.get(`/recipes/user/${id}`, { page, limit });
 export const createRecipe = (formData) => http.post('/recipes', formData);
-export const updateRecipe = (id, formData) => http.put(`/recipes/${id}`, formData);
+export const updateRecipe = (id, formData) => http.patch(`/recipes/${id}`, formData);
 export const deleteRecipe = (id) => http.delete(`/recipes/${id}`);
 export const addFavorite = (id) => http.post(`/recipes/${id}/favorite`);
 export const removeFavorite = (id) => http.delete(`/recipes/${id}/favorite`);
