@@ -1,7 +1,11 @@
 .list {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 16px;
+
+  @media (--desktop) {
+    gap: 40px;
+  }
 }
 
 .link {
@@ -9,22 +13,35 @@
   align-items: center;
   justify-content: center;
   padding: 14px;
-  border-radius: 30px;
   border: 1px solid transparent;
+  border-radius: 30px;
   color: inherit;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
 }
 
 .active {
   border-color: var(--color-gray);
 }
 
+.link:hover:not(.active),
+.link:focus-visible:not(.active) {
+  background-color: var(--color-gray-light);
+}
+
 .onDark .active {
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+.onDark .link:hover:not(.active),
+.onDark .link:focus-visible:not(.active) {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .drawerList {
@@ -39,4 +56,9 @@
 
 .drawerList .active {
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+.drawerList .link:hover:not(.active),
+.drawerList .link:focus-visible:not(.active) {
+  background-color: rgba(255, 255, 255, 0.12);
 }

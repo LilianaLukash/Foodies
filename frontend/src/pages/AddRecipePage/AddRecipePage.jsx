@@ -2,9 +2,10 @@ import PathInfo from '@components/PathInfo/PathInfo';
 import MainTitle from '@components/MainTitle/MainTitle';
 import { Subtitle } from '@components';
 import { AddRecipeForm } from '@features/recipes';
+import css from './AddRecipePage.module.css';
 
 const AddRecipePage = () => (
-  <div className="container">
+  <div className={`container ${css.page}`}>
     <PathInfo page="Add recipe" />
     <MainTitle>Add recipe</MainTitle>
     <Subtitle>
