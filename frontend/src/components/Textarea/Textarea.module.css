@@ -1,0 +1,118 @@
+.root {
+  width: 100%;
+}
+
+.label {
+  color: var(--color-black);
+  display: block;
+  margin-bottom: 32px;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+
+  @media (--tablet) {
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
+
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+.placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.placeholderText {
+  color: var(--color-gray);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition: color var(--transition);
+
+  @media (--tablet) {
+    font-size: 16px;
+  }
+}
+
+.required {
+  margin-left: 8px;
+  color: var(--color-error);
+}
+
+.control {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  min-height: 24px;
+  padding: 0;
+  padding-bottom: 8px;
+  border: none;
+  border-bottom: 1px solid var(--color-gray);
+  background: transparent;
+  outline: none;
+  overflow: hidden;
+  resize: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  transition: border-color var(--transition), color var(--transition);
+
+  @media (--tablet) {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+.controlWithCounter {
+  padding-bottom: 16px;
+}
+
+.counter {
+  flex-shrink: 0;
+  color: var(--color-gray);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  transition: color var(--transition);
+
+  @media (--tablet) {
+    font-size: 16px;
+  }
+}
+
+.wrap > .counter {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  z-index: 2;
+}
+
+.hasError .control {
+  border-bottom-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.hasError .placeholderText,
+.hasError .counter {
+  color: var(--color-error);
+}

@@ -1,0 +1,7 @@
+:global(.container).page {
+  padding-bottom: 64px;
+
+  @media (--desktop) {
+    padding-bottom: 120px;
+  }
+}

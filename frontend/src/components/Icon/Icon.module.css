@@ -2,3 +2,13 @@
   display: block;
   flex-shrink: 0;
 }
+
+.responsive {
+  width: var(--icon-size-mobile);
+  height: var(--icon-size-mobile);
+
+  @media (--tablet) {
+    width: var(--icon-size-tablet);
+    height: var(--icon-size-tablet);
+  }
+}

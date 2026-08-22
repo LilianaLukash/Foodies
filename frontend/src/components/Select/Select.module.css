@@ -1,0 +1,211 @@
+.root {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.root.hasFixedWidth {
+  @media (--tablet) {
+    width: var(--select-tablet-width);
+    max-width: var(--select-tablet-width);
+    flex: none;
+  }
+
+  @media (--desktop) {
+    width: var(--select-desktop-width, var(--select-tablet-width));
+    max-width: var(--select-desktop-width, var(--select-tablet-width));
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+}
+
+.isOpen .select {
+  position: relative;
+  z-index: 9;
+}
+
+.label {
+  color: var(--color-black);
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+
+  @media (--tablet) {
+    margin-bottom: 16px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
+
+.required {
+  margin-left: 8px;
+  color: var(--color-error);
+}
+
+/* shared text style for control + menu */
+.select :global(.foodies__control),
+.select :global(.foodies__placeholder),
+.select :global(.foodies__single-value),
+.select :global(.foodies__input),
+.select :global(.foodies__option) {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: -0.28px;
+
+  @media (--tablet) {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+.select :global(.foodies__control) {
+  min-height: unset;
+  padding: 16px;
+  border: 1px solid var(--color-gray);
+  border-radius: 30px;
+  box-shadow: none !important;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  align-items: center;
+  transition: border-color var(--transition);
+}
+
+.select :global(.foodies__control--is-focused) {
+  border-color: var(--color-black) !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.select :global(.foodies__control):hover {
+  border-color: var(--color-gray);
+}
+
+.select :global(.foodies__value-container) {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  min-height: unset;
+  min-width: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.select :global(.foodies__placeholder),
+.select :global(.foodies__single-value) {
+  margin: 0;
+  position: static;
+  transform: none;
+  max-width: 100%;
+  color: var(--color-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select :global(.foodies__single-value) {
+  color: var(--color-black);
+}
+
+.select :global(.foodies__input-container) {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.select :global(.foodies__input) {
+  margin: 0;
+  padding: 0;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.select :global(.foodies__input input) {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.select :global(.foodies__indicators) {
+  height: auto;
+  align-self: center;
+}
+
+.select :global(.foodies__indicator-separator) {
+  display: none;
+}
+
+.select :global(.foodies__dropdown-indicator),
+.select :global(.foodies__clear-indicator) {
+  padding: 0;
+  color: var(--color-black);
+}
+
+.select :global(.foodies__menu) {
+  margin-top: 8px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  background: var(--color-white);
+  z-index: 10;
+}
+
+.select :global(.foodies__menu-list) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  max-height: 254px;
+  padding: 16px 0;
+}
+
+.select :global(.foodies__option) {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 18px;
+  border-radius: 0;
+  cursor: pointer;
+  color: var(--color-black);
+  background-color: transparent;
+  transition: background-color var(--transition);
+}
+
+.select :global(.foodies__option--is-focused) {
+  background-color: var(--color-gray-light) !important;
+  color: var(--color-black);
+}
+
+.select :global(.foodies__option--is-selected) {
+  background-color: transparent;
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.select :global(.foodies__option--is-selected.foodies__option--is-focused) {
+  background-color: var(--color-gray-light) !important;
+}
+
+.hasError .select :global(.foodies__control) {
+  border-color: var(--color-error);
+}
+
+.hasError .select :global(.foodies__placeholder),
+.hasError .select :global(.foodies__single-value),
+.hasError .select :global(.foodies__dropdown-indicator) {
+  color: var(--color-error);
+}
