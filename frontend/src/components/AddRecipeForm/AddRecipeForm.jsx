@@ -20,22 +20,22 @@ import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './AddRecipeForm.module.css';
 
 const schema = Yup.object({
-  thumb: Yup.mixed().required('Photo is required'),
+  mainImage: Yup.mixed().required('Photo is required'),
   title: Yup.string().required('Title is required'),
   description: Yup.string().max(200, 'Max 200 characters').required('Description is required'),
-  category: Yup.string().required('Category is required'),
-  area: Yup.string().required('Area is required'),
+  categoryId: Yup.string().required('Category is required'),
+  areaId: Yup.string().required('Area is required'),
   time: Yup.number().min(1, 'At least 1 minute').required('Time is required'),
   ingredients: Yup.array().min(1, 'Add at least one ingredient').required(),
   instructions: Yup.string().max(1000, 'Max 1000 characters').required('Instructions are required'),
 });
 
 const initialValues = {
-  thumb: null,
+  mainImage: null,
   title: '',
   description: '',
-  category: '',
-  area: '',
+  categoryId: '',
+  areaId: '',
   time: 10,
   ingredients: [],
   instructions: '',
@@ -73,13 +73,15 @@ const AddRecipeForm = () => {
           const formData = new FormData();
           formData.append('title', values.title);
           formData.append('description', values.description);
-          formData.append('category', values.category);
-          formData.append('area', values.area);
+          formData.append('categoryId', values.categoryId);
+          formData.append('areaId', values.areaId);
           formData.append('time', String(values.time));
           formData.append('instructions', values.instructions);
-          formData.append('ingredients', JSON.stringify(values.ingredients));
-          formData.append('thumb', values.thumb);
-          formData.append('thumbPreview', preview);
+          formData.append(
+            'ingredients',
+            JSON.stringify(values.ingredients.map(({ id, measure }) => ({ id, measure }))),
+          );
+          formData.append('mainImage', values.mainImage);
           const created = await createRecipe(formData);
           navigate(`/recipe/${getId(created)}`);
         } catch (error) {
@@ -106,10 +108,12 @@ const AddRecipeForm = () => {
                 if (!file) return;
                 if (preview) URL.revokeObjectURL(preview);
                 setPreview(URL.createObjectURL(file));
-                setFieldValue('thumb', file);
+                setFieldValue('mainImage', file);
               }}
             />
-            {errors.thumb && touched.thumb ? <p className={css.error}>{errors.thumb}</p> : null}
+            {errors.mainImage && touched.mainImage ? (
+              <p className={css.error}>{errors.mainImage}</p>
+            ) : null}
           </label>
 
           <div className={css.fields}>
@@ -127,11 +131,10 @@ const AddRecipeForm = () => {
             <div className={css.row}>
               <SelectField
                 options={categories}
-                value={values.category}
-                onChange={(value) => setFieldValue('category', value)}
+                value={values.categoryId}
+                onChange={(value) => setFieldValue('categoryId', value)}
                 placeholder="Category"
-                getOptionValue={(option) => option.name}
-                error={touched.category ? errors.category : ''}
+                error={touched.categoryId ? errors.categoryId : ''}
               />
               <div className={css.time}>
                 <p>Cooking time</p>
@@ -158,11 +161,10 @@ const AddRecipeForm = () => {
 
             <SelectField
               options={areas}
-              value={values.area}
-              onChange={(value) => setFieldValue('area', value)}
+              value={values.areaId}
+              onChange={(value) => setFieldValue('areaId', value)}
               placeholder="Area"
-              getOptionValue={(option) => option.name}
-              error={touched.area ? errors.area : ''}
+              error={touched.areaId ? errors.areaId : ''}
             />
 
             <div className={css.ingRow}>

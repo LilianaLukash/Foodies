@@ -79,6 +79,11 @@ const seedAreas = [
   'British',
 ].map((name, index) => ({ id: `area-${index + 1}`, name }));
 
+const findCategoryName = (value) =>
+  seedCategories.find((item) => item.id === value)?.name ?? value;
+const findAreaName = (value) =>
+  seedAreas.find((item) => item.id === value)?.name ?? value;
+
 const usersSeed = [
   {
     id: 'u1',
@@ -607,13 +612,19 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
   if (verb === 'get' && path === '/recipes') {
     const current = userFromToken(db, (headers.Authorization || '').replace('Bearer ', ''));
     let list = db.recipes.map((recipe) => withOwner(db, recipe));
-    if (params?.category) list = list.filter((recipe) => recipe.category === params.category);
+    if (params?.category) {
+      const categoryName = findCategoryName(params.category);
+      list = list.filter((recipe) => recipe.category === categoryName);
+    }
     if (params?.ingredient) {
       list = list.filter((recipe) =>
-        recipe.ingredients.some((item) => item.id === params.ingredient || item.name === params.ingredient),
+        recipe.ingredients.some((item) => item.id === params.ingredient),
       );
     }
-    if (params?.area) list = list.filter((recipe) => recipe.area === params.area);
+    if (params?.area) {
+      const areaName = findAreaName(params.area);
+      list = list.filter((recipe) => recipe.area === areaName);
+    }
     const page = paginate(list, params?.page, params?.limit);
     page.recipes = page.recipes.map((recipe) => ({
       ...recipe,
@@ -661,8 +672,8 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
       id: `r${Date.now()}`,
       title: fields.title,
       description: fields.description,
-      category: fields.category,
-      area: fields.area,
+      category: findCategoryName(fields.categoryId ?? fields.category),
+      area: findAreaName(fields.areaId ?? fields.area),
       time: Number(fields.time),
       instructions: fields.instructions,
       thumb: fields.thumbPreview || img.meal('ustsqw1469097804'),

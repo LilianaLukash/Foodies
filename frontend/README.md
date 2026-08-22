@@ -20,8 +20,12 @@ npm run dev
 
 За замовчуванням увімкнений **mock API** (`VITE_USE_MOCK=true`), щоб інтерфейс можна було зібрати без бекенду.
 
-Демо-акаунт:
+Демо-акаунт (mock API):
 - email: `nadiia@foodies.test`
+- password: `12345678`
+
+Локальный бэкенд (после `npm run prisma:seed` с `SEED_USER_PASSWORD`):
+- email: `goit@gmail.com`
 - password: `12345678`
 
 ## Підключення свого Node.js API
@@ -35,8 +39,8 @@ VITE_USE_MOCK=false
 
 Очікувані ендпоінти (префікс `/api`):
 
-- `POST /auth/register` `{ name, email, password }` → `{ token, user }`
-- `POST /auth/login` `{ email, password }` → `{ token, user }`
+- `POST /auth/register` `{ name, email, password }` → `{ accessToken, refreshToken, user }`
+- `POST /auth/login` `{ email, password }` → `{ accessToken, refreshToken, user }`
 - `POST /auth/logout`
 - `GET /users/current`
 - `GET /users/:id`
@@ -44,9 +48,9 @@ VITE_USE_MOCK=false
 - `GET /users/:id/followers` `GET /users/:id/following`
 - `POST /users/:id/follow` `DELETE /users/:id/follow`
 - `GET /categories` `GET /areas` `GET /ingredients` `GET /testimonials`
-- `GET /recipes?category&ingredient&area&page&limit`
+- `GET /recipes?category&ingredient&area&page&limit` — фильтры по **id**
 - `GET /recipes/popular` `GET /recipes/:id`
-- `POST /recipes` FormData
+- `POST /recipes` FormData (`categoryId`, `areaId`, `mainImage`, `ingredients` как JSON `[{ id, measure }]`)
 - `DELETE /recipes/:id`
 - `GET /recipes/own` `GET /recipes/favorites` `GET /recipes/user/:id`
 - `POST /recipes/:id/favorite` `DELETE /recipes/:id/favorite`
