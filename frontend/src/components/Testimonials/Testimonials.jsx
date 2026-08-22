@@ -23,24 +23,28 @@ const Testimonials = () => {
       <div className="container">
         <p className={css.eyebrow}>What our customer say</p>
         <h2 className={css.title}>Testimonials</h2>
-        <div className={css.slider}>
+
+        <div className={css.content}>
           <Icon name="icon-quotes" className={css.quotes} width={59} height={48} />
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            autoHeight
-            loop={items.length > 1}
-          >
-            {items.map((item) => (
-              <SwiperSlide key={item.id || item._id}>
-                <blockquote className={css.quote}>
-                  <p>{item.testimonial || item.quote}</p>
-                  <cite>{item.owner?.name || item.author}</cite>
-                </blockquote>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+
+          <div className={css.carousel}>
+            <Swiper
+              modules={[Autoplay, Pagination]}
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              pagination={{ clickable: true }}
+              autoHeight
+              loop={items.length > 1}
+            >
+              {items.map((item) => (
+                <SwiperSlide key={item.id || item._id}>
+                  <blockquote className={css.quote}>
+                    <p>{item.testimonial || item.quote}</p>
+                    <cite>{item.owner?.name || item.author}</cite>
+                  </blockquote>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </section>

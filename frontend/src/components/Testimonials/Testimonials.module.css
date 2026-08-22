@@ -20,19 +20,24 @@
   text-transform: uppercase;
 }
 
-.slider {
-  position: relative;
+/* Title → content block */
+.content {
   max-width: 343px;
   margin: 32px auto 0;
   text-align: center;
 }
 
+/* Quotes sit above the carousel as their own row (left-aligned). */
 .quotes {
   display: block;
   width: 40px;
   height: 32px;
-  margin: 0;
+  margin: 0 0 16px;
   color: var(--color-gray);
+}
+
+.carousel {
+  width: 100%;
 }
 
 .quote {
@@ -55,27 +60,27 @@
   text-transform: uppercase;
 }
 
-.slider :global(.swiper) {
+.carousel :global(.swiper) {
   width: 100%;
 }
 
-.slider :global(.swiper-slide) {
+.carousel :global(.swiper-slide) {
   height: auto;
 }
 
-.slider :global(.swiper-pagination) {
+.carousel :global(.swiper-pagination) {
   position: relative;
   margin-top: 40px;
 }
 
-.slider :global(.swiper-pagination-bullet) {
+.carousel :global(.swiper-pagination-bullet) {
   width: 14px;
   height: 14px;
   background: var(--color-gray-light);
   opacity: 1;
 }
 
-.slider :global(.swiper-pagination-bullet-active) {
+.carousel :global(.swiper-pagination-bullet-active) {
   background: var(--color-black);
 }
 
@@ -89,7 +94,7 @@
     line-height: 1.1;
   }
 
-  .slider {
+  .content {
     max-width: 704px;
     margin-top: 40px;
   }
@@ -97,9 +102,7 @@
   .quotes {
     width: 59px;
     height: 48px;
-    margin-left: 40px;
-    /* Bottom of quotes aligns with the first line of the quote (Figma) */
-    margin-bottom: -8px;
+    margin: 0 0 20px 40px;
   }
 
   .quote p {
@@ -112,7 +115,7 @@
     padding: 120px 0;
   }
 
-  .slider {
+  .content {
     max-width: 822px;
   }
 }
