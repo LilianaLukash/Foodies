@@ -28,14 +28,23 @@ npm run dev
 - email: `goit@gmail.com`
 - password: `12345678`
 
-## Підключення свого Node.js API
+## Підключення API
 
-У `.env`:
+У `frontend/.env`:
 
+**Локальный бэкенд:**
 ```
 VITE_API_URL=http://localhost:3000/api
 VITE_USE_MOCK=false
 ```
+
+**Production (Render):**
+```
+VITE_API_URL=https://foodies-backend-bklu.onrender.com/api
+VITE_USE_MOCK=false
+```
+
+Swagger: https://foodies-backend-bklu.onrender.com/api-docs/
 
 Очікувані ендпоінти (префікс `/api`):
 
@@ -64,4 +73,4 @@ VITE_USE_MOCK=false
 - `/recipe/add` — AddRecipePage (private; `/add` redirects here)
 ## GitHub Pages
 
-Після пуша в `main` сайт збирається і публікується на https://lilianalukash.github.io/Foodies/ (mock API).
+Після пуша в `main` сайт збирається і публікується на https://lilianalukash.github.io/Foodies/ (підключено до Render API).

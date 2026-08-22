@@ -38,7 +38,8 @@ jobs:
         working-directory: frontend
         env:
           GITHUB_PAGES: 'true'
-          VITE_USE_MOCK: 'true'
+          VITE_USE_MOCK: 'false'
+          VITE_API_URL: 'https://foodies-backend-bklu.onrender.com/api'
       - name: SPA fallback
         run: cp dist/index.html dist/404.html
         working-directory: frontend
