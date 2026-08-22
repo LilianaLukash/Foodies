@@ -15,13 +15,15 @@ const Recipes = ({ category, onBack }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState({ items: [], totalPages: 1 });
   const [loading, setLoading] = useState(true);
+  const categoryId = category?.id;
+  const categoryName = category?.name ?? category;
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
         const payload = await getRecipes({
-          category: category === 'All categories' ? undefined : category,
+          category: categoryId || undefined,
           ingredient: filters.ingredient || undefined,
           area: filters.area || undefined,
           page,
@@ -36,7 +38,7 @@ const Recipes = ({ category, onBack }) => {
       }
     };
     load();
-  }, [category, filters, page]);
+  }, [categoryId, filters, page]);
 
   return (
     <section className={css.section}>
@@ -44,7 +46,7 @@ const Recipes = ({ category, onBack }) => {
         <button className={css.back} type="button" onClick={onBack}>
           ← Back
         </button>
-        <MainTitle>{category}</MainTitle>
+        <MainTitle>{categoryName}</MainTitle>
         <Subtitle>
           Go on a taste journey, finding unique recipes that reflect the diversity of local cuisines.
         </Subtitle>

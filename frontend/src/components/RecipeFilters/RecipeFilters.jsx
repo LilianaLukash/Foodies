@@ -27,7 +27,6 @@ const RecipeFilters = ({ ingredient, area, onChange }) => {
         value={area}
         onChange={(value) => onChange({ ingredient, area: value })}
         placeholder="Area"
-        getOptionValue={(option) => option.name}
       />
     </div>
   );

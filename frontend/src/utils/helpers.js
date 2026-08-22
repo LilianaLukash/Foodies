@@ -45,6 +45,9 @@ export const normalizeUser = (user = {}) => ({
   isFollowing: Boolean(user.isFollowing ?? user.followingMe ?? false),
 });
 
+export const recipeImage = (recipe = {}) =>
+  recipe.mainImage || recipe.thumb || recipe.preview || recipe.img || '';
+
 export const PAGE_LIMIT = 12;
 
 export const assetUrl = (path) => `${import.meta.env.BASE_URL}${String(path).replace(/^\//, '')}`;

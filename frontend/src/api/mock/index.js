@@ -1,6 +1,6 @@
 import { DEFAULT_AVATAR } from '../../utils/helpers';
 
-const STORAGE_KEY = 'foodies-mock-db-v1';
+const STORAGE_KEY = 'foodies-mock-db-v2';
 
 const img = {
   beef: 'https://www.themealdb.com/images/category/beef.png',
@@ -79,6 +79,11 @@ const seedAreas = [
   'British',
 ].map((name, index) => ({ id: `area-${index + 1}`, name }));
 
+const findCategoryName = (value) =>
+  seedCategories.find((item) => item.id === value)?.name ?? value;
+const findAreaName = (value) =>
+  seedAreas.find((item) => item.id === value)?.name ?? value;
+
 const usersSeed = [
   {
     id: 'u1',
@@ -86,7 +91,7 @@ const usersSeed = [
     email: 'nadiia@foodies.test',
     password: '12345678',
     avatar: '',
-    followingIds: ['u2'],
+    followingIds: ['u2', 'u4', 'u5', 'u6', 'u7', 'u8'],
     favoriteIds: ['r1', 'r4'],
   },
   {
@@ -106,6 +111,51 @@ const usersSeed = [
     avatar: 'https://i.pravatar.cc/160?img=12',
     followingIds: [],
     favoriteIds: ['r1'],
+  },
+  {
+    id: 'u4',
+    name: 'Sofia',
+    email: 'sofia@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=5',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u5',
+    name: 'Taras',
+    email: 'taras@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=15',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u6',
+    name: 'Iryna',
+    email: 'iryna@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=20',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u7',
+    name: 'Andrii',
+    email: 'andrii@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=33',
+    followingIds: ['u1'],
+    favoriteIds: [],
+  },
+  {
+    id: 'u8',
+    name: 'Oksana',
+    email: 'oksana@foodies.test',
+    password: '12345678',
+    avatar: 'https://i.pravatar.cc/160?img=47',
+    followingIds: ['u1'],
+    favoriteIds: [],
   },
 ];
 
@@ -251,6 +301,42 @@ const recipesSeed = [
       { id: 'ing-7', name: 'Garlic', measure: '4 cloves', img: img.ingredient('Garlic') },
     ],
   },
+  {
+    id: 'r9',
+    title: 'Berry parfait',
+    category: 'Desserts',
+    area: 'American',
+    time: 15,
+    description: 'Layers of yogurt and berries for a light finish.',
+    instructions: 'Layer yogurt and berries. Chill and serve.',
+    thumb: img.meal('rqvwxt1511382804'),
+    ownerId: 'u4',
+    ingredients: [{ id: 'ing-16', name: 'Yogurt', measure: '200 g', img: img.ingredient('Yogurt') }],
+  },
+  {
+    id: 'r10',
+    title: 'Herb omelette',
+    category: 'Breakfast',
+    area: 'French',
+    time: 10,
+    description: 'A quick omelette with fresh herbs.',
+    instructions: 'Beat eggs, cook gently, fold in herbs.',
+    thumb: img.meal('hqeco91645297366'),
+    ownerId: 'u5',
+    ingredients: [{ id: 'ing-11', name: 'Egg', measure: '3 pcs', img: img.ingredient('Egg') }],
+  },
+  {
+    id: 'r11',
+    title: 'Tomato bruschetta',
+    category: 'Starter',
+    area: 'Italian',
+    time: 20,
+    description: 'Toasted bread with tomatoes and basil.',
+    instructions: 'Toast bread, top with tomatoes and basil.',
+    thumb: img.meal('uypkoi1625563909'),
+    ownerId: 'u6',
+    ingredients: [{ id: 'ing-6', name: 'Tomato', measure: '2 pcs', img: img.ingredient('Tomato') }],
+  },
 ];
 
 const testimonialsSeed = [
@@ -386,7 +472,11 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     const token = tokenFor(user.id);
     db.sessions[user.id] = token;
     writeDb(db);
-    return { token, user: publicUser(db, user, user) };
+    return {
+      accessToken: token,
+      refreshToken: token,
+      user: publicUser(db, user, user),
+    };
   }
 
   if (verb === 'post' && path === '/auth/login') {
@@ -395,7 +485,20 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     const token = tokenFor(user.id);
     db.sessions[user.id] = token;
     writeDb(db);
-    return { token, user: publicUser(db, user, user) };
+    return {
+      accessToken: token,
+      refreshToken: token,
+      user: publicUser(db, user, user),
+    };
+  }
+
+  if (verb === 'post' && path === '/auth/refresh') {
+    const user = userFromToken(db, data?.refreshToken);
+    if (!user) throw httpError(401, 'Invalid refresh token');
+    const token = tokenFor(user.id);
+    db.sessions[user.id] = token;
+    writeDb(db);
+    return { accessToken: token };
   }
 
   if (verb === 'post' && path === '/auth/logout') {
@@ -405,7 +508,7 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     return { message: 'Logged out' };
   }
 
-  if (verb === 'get' && path === '/users/current') {
+  if (verb === 'get' && path === '/users/me') {
     const user = requireAuth(db, headers);
     return publicUser(db, user, user);
   }
@@ -418,7 +521,7 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     return publicUser(db, user, current);
   }
 
-  if (verb === 'patch' && path === '/users/avatar') {
+  if (verb === 'patch' && path === '/users/me/avatar') {
     const user = requireAuth(db, headers);
     user.avatar = typeof data === 'string' ? data : user.avatar || DEFAULT_AVATAR;
     writeDb(db);
@@ -474,12 +577,16 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
   if (verb === 'get' && path === '/testimonials') return testimonialsSeed;
 
   if (verb === 'get' && path === '/recipes/popular') {
+    const current = userFromToken(db, (headers.Authorization || '').replace('Bearer ', ''));
     const ranked = [...db.recipes].sort((a, b) => {
       const aCount = db.users.filter((user) => user.favoriteIds.includes(a.id)).length;
       const bCount = db.users.filter((user) => user.favoriteIds.includes(b.id)).length;
       return bCount - aCount;
     });
-    return ranked.slice(0, 4).map((recipe) => withOwner(db, recipe));
+    return ranked.slice(0, 4).map((recipe) => ({
+      ...withOwner(db, recipe),
+      isFavorite: Boolean(current?.favoriteIds.includes(recipe.id)),
+    }));
   }
 
   if (verb === 'get' && path === '/recipes/own') {
@@ -505,13 +612,19 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
   if (verb === 'get' && path === '/recipes') {
     const current = userFromToken(db, (headers.Authorization || '').replace('Bearer ', ''));
     let list = db.recipes.map((recipe) => withOwner(db, recipe));
-    if (params?.category) list = list.filter((recipe) => recipe.category === params.category);
+    if (params?.category) {
+      const categoryName = findCategoryName(params.category);
+      list = list.filter((recipe) => recipe.category === categoryName);
+    }
     if (params?.ingredient) {
       list = list.filter((recipe) =>
-        recipe.ingredients.some((item) => item.id === params.ingredient || item.name === params.ingredient),
+        recipe.ingredients.some((item) => item.id === params.ingredient),
       );
     }
-    if (params?.area) list = list.filter((recipe) => recipe.area === params.area);
+    if (params?.area) {
+      const areaName = findAreaName(params.area);
+      list = list.filter((recipe) => recipe.area === areaName);
+    }
     const page = paginate(list, params?.page, params?.limit);
     page.recipes = page.recipes.map((recipe) => ({
       ...recipe,
@@ -559,8 +672,8 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
       id: `r${Date.now()}`,
       title: fields.title,
       description: fields.description,
-      category: fields.category,
-      area: fields.area,
+      category: findCategoryName(fields.categoryId ?? fields.category),
+      area: findAreaName(fields.areaId ?? fields.area),
       time: Number(fields.time),
       instructions: fields.instructions,
       thumb: fields.thumbPreview || img.meal('ustsqw1469097804'),

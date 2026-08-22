@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import PathInfo from '../../components/PathInfo/PathInfo';
@@ -27,8 +27,20 @@ import {
   removeFavorite,
   unfollowUser,
 } from '../../api/services';
-import { getErrorMessage, getId, PAGE_LIMIT } from '../../utils/helpers';
+import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './UserPage.module.css';
+
+const EMPTY_FOLLOWERS =
+  'There are currently no followers on your account. Please engage our visitors with interesting content and draw their attention to your profile.';
+const EMPTY_FOLLOWING =
+  'Your account currently has no subscriptions to other users. Learn more about our users and select those whose content interests you.';
+const EMPTY_OWN_RECIPES =
+  'Nothing has been added to your recipes list yet. Create your first recipe and share your culinary art with others.';
+const EMPTY_USER_RECIPES =
+  'This user has not added any recipes yet. Follow the profile to be the first to know when a new one shows up.';
+const EMPTY_FAVORITES =
+  'Nothing has been added to your favorite recipes list yet. Please browse our recipes and add your favorites for easy access in the future.';
+const PROFILE_USERS_LIMIT = 5;
 
 const UserPage = () => {
   const { id } = useParams();
@@ -52,11 +64,22 @@ const UserPage = () => {
     [isOwn],
   );
 
+  const EMPTY_TEXTS = useMemo(
+    () => ({
+      recipes: isOwn ? EMPTY_OWN_RECIPES : EMPTY_USER_RECIPES,
+      favorites: EMPTY_FAVORITES,
+      followers: EMPTY_FOLLOWERS,
+      following: EMPTY_FOLLOWING,
+    }),
+    [isOwn],
+  );
+
   const [profile, setProfile] = useState(null);
   const [tab, setTab] = useState('recipes');
   const [page, setPage] = useState(1);
   const [list, setList] = useState({ items: [], totalPages: 1 });
   const [loading, setLoading] = useState(true);
+  const silentLoadRef = useRef(false);
 
   const refreshProfile = useCallback(async () => {
     const data = await getUserById(id);
@@ -64,18 +87,20 @@ const UserPage = () => {
   }, [id]);
 
   const loadList = useCallback(async () => {
-    setLoading(true);
+    const silent = silentLoadRef.current;
+    silentLoadRef.current = false;
+    if (!silent) setLoading(true);
     try {
       let payload;
       if (tab === 'recipes') payload = isOwn ? await getOwnRecipes(page) : await getUserRecipes(id, page);
       if (tab === 'favorites') payload = await getFavoriteRecipes(page);
-      if (tab === 'followers') payload = await getFollowers(id, page);
-      if (tab === 'following') payload = await getFollowing(id, page);
+      if (tab === 'followers') payload = await getFollowers(id, page, PROFILE_USERS_LIMIT);
+      if (tab === 'following') payload = await getFollowing(id, page, PROFILE_USERS_LIMIT);
       setList(asPage(payload, ['recipes', 'users', 'followers', 'following']));
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [tab, page, id, isOwn]);
 
@@ -97,8 +122,15 @@ const UserPage = () => {
       if (tab === 'favorites') await removeFavorite(recipeId);
       else await deleteRecipe(recipeId);
       const remaining = list.items.length - 1;
+      setList((prev) => ({
+        ...prev,
+        items: prev.items.filter((item) => getId(item) !== recipeId),
+      }));
+
+      silentLoadRef.current = true;
       if (remaining === 0 && page > 1) setPage((prev) => prev - 1);
       else await loadList();
+
       await refreshProfile();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -106,15 +138,27 @@ const UserPage = () => {
   };
 
   const onFollow = async (user, isFollowing) => {
+    const targetId = getId(user);
+    if (!targetId || targetId === getId(currentUser)) return;
     try {
-      if (isFollowing) await unfollowUser(getId(user));
-      else await followUser(getId(user));
+      if (isFollowing) await unfollowUser(targetId);
+      else await followUser(targetId);
+
       if (tab === 'following' && isFollowing) {
-        const remaining = list.items.length - 1;
-        if (remaining === 0 && page > 1) setPage((prev) => prev - 1);
-        else await loadList();
+        if (list.items.length === 1 && page > 1) {
+          silentLoadRef.current = true;
+          setPage((prev) => prev - 1);
+        } else {
+          silentLoadRef.current = true;
+          await loadList();
+        }
       } else {
-        await loadList();
+        setList((prev) => ({
+          ...prev,
+          items: prev.items.map((item) =>
+            getId(item) === targetId ? { ...item, isFollowing: !isFollowing } : item,
+          ),
+        }));
       }
       await refreshProfile();
     } catch (error) {
@@ -128,6 +172,10 @@ const UserPage = () => {
       if (profile.isFollowing) await unfollowUser(id);
       else await followUser(id);
       await refreshProfile();
+      if (tab === 'followers') {
+        silentLoadRef.current = true;
+        await loadList();
+      }
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -175,6 +223,8 @@ const UserPage = () => {
             onChange={(value) => {
               setTab(value);
               setPage(1);
+              setList({ items: [], totalPages: 1 });
+              setLoading(true);
             }}
           />
           {loading ? (
@@ -184,12 +234,16 @@ const UserPage = () => {
               type={tab === 'followers' || tab === 'following' ? 'users' : 'recipes'}
               items={list.items}
               onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDelete : undefined}
+              deleteLabel={tab === 'favorites' ? 'Remove from favorites' : 'Delete recipe'}
               onFollow={onFollow}
+              currentUserId={getId(currentUser)}
               showUnfollowOnly={tab === 'following'}
-              emptyText="Nothing here yet."
+              emptyText={EMPTY_TEXTS[tab]}
             />
           )}
-          <ListPagination page={page} totalPages={list.totalPages} onChange={setPage} />
+          {!loading && list.items.length > 0 ? (
+            <ListPagination page={page} totalPages={list.totalPages} onChange={setPage} />
+          ) : null}
         </section>
       </div>
     </div>

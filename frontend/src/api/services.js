@@ -5,17 +5,17 @@ export const registerUser = (payload) => http.post('/auth/register', payload);
 export const loginUser = (payload) => http.post('/auth/login', payload);
 export const logoutUser = () => http.post('/auth/logout');
 
-export const getCurrentUser = () => http.get('/users/current');
+export const getCurrentUser = () => http.get('/users/me');
 export const getUserById = (id) => http.get(`/users/${id}`);
 
 export const updateAvatar = async (file) => {
   if (import.meta.env.VITE_USE_MOCK === 'true') {
     const dataUrl = await fileToDataUrl(file);
-    return http.patch('/users/avatar', dataUrl);
+    return http.patch('/users/me/avatar', dataUrl);
   }
   const formData = new FormData();
   formData.append('avatar', file);
-  return http.patch('/users/avatar', formData);
+  return http.patch('/users/me/avatar', formData);
 };
 
 export const getFollowers = (id, page = 1, limit = PAGE_LIMIT) =>
