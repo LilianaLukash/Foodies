@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import Icon from '../Icon/Icon';
+import { getCategoryImage } from '../../constants/categoryImages';
 import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './CategoryList.module.css';
 
@@ -8,6 +9,7 @@ const FIGMA_ORDER = [
   'Beef',
   'Breakfast',
   'Desserts',
+  'Dessert',
   'Lamb',
   'Goat',
   'Miscellaneous',
@@ -18,8 +20,8 @@ const FIGMA_ORDER = [
   'Starter',
 ];
 
-const WIDE_DESKTOP = new Set(['Desserts', 'Lamb', 'Pork', 'Side']);
-const WIDE_TABLET = new Set(['Desserts', 'Pork']);
+const WIDE_DESKTOP = new Set(['Desserts', 'Dessert', 'Lamb', 'Pork', 'Side']);
+const WIDE_TABLET = new Set(['Desserts', 'Dessert', 'Pork']);
 
 const sortCategories = (categories = []) =>
   [...categories].sort((a, b) => {
@@ -45,7 +47,7 @@ const CategoryList = ({ categories, onSelect }) => {
       {sortCategories(categories).map((category) => {
         const name = category.name;
         const id = getId(category);
-        const image = category.img || category.thumb;
+        const image = getCategoryImage(category);
         return (
           <li
             key={id || name}
@@ -61,7 +63,9 @@ const CategoryList = ({ categories, onSelect }) => {
               onClick={() => handleSelect(category)}
               aria-label={`Open ${name}`}
             >
-              <img src={image} alt="" loading="lazy" decoding="async" />
+              {image ? (
+                <img src={image} alt="" loading="lazy" decoding="async" />
+              ) : null}
               <div className={css.label}>
                 <span>{name}</span>
                 <span className={css.arrow} aria-hidden="true">
