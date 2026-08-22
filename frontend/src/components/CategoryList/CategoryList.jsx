@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import Icon from '../Icon/Icon';
-import { getCategoryImage } from '../../constants/categoryImages';
+import { getCategoryImageSources } from '../../constants/categoryImages';
 import { getErrorMessage, getId } from '../../utils/helpers';
 import css from './CategoryList.module.css';
 
@@ -47,7 +47,7 @@ const CategoryList = ({ categories, onSelect }) => {
       {sortCategories(categories).map((category) => {
         const name = category.name;
         const id = getId(category);
-        const image = getCategoryImage(category);
+        const { src, srcSet } = getCategoryImageSources(category);
         return (
           <li
             key={id || name}
@@ -63,8 +63,8 @@ const CategoryList = ({ categories, onSelect }) => {
               onClick={() => handleSelect(category)}
               aria-label={`Open ${name}`}
             >
-              {image ? (
-                <img src={image} alt="" loading="lazy" decoding="async" />
+              {src ? (
+                <img src={src} srcSet={srcSet} alt="" loading="lazy" decoding="async" />
               ) : null}
               <div className={css.label}>
                 <span>{name}</span>
