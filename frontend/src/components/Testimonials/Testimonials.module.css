@@ -22,17 +22,24 @@
 
 .slider {
   position: relative;
+  display: flex;
+  flex-direction: column;
   max-width: 343px;
   margin: 32px auto 0;
   text-align: center;
 }
 
 .quotes {
+  align-self: flex-start;
   display: block;
   width: 40px;
   height: 32px;
-  margin: 0 0 -8px;
+  margin: 0;
   color: var(--color-gray);
+}
+
+.quote {
+  margin: 0;
 }
 
 .quote p {
@@ -85,7 +92,9 @@
   .quotes {
     width: 59px;
     height: 48px;
-    margin: 0 0 -12px 40px;
+    margin-left: 40px;
+    /* Bottom of quotes aligns with the first line of the quote (Figma) */
+    margin-bottom: -8px;
   }
 
   .quote p {
