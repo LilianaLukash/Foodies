@@ -22,15 +22,12 @@
 
 .slider {
   position: relative;
-  display: flex;
-  flex-direction: column;
   max-width: 343px;
   margin: 32px auto 0;
   text-align: center;
 }
 
 .quotes {
-  align-self: flex-start;
   display: block;
   width: 40px;
   height: 32px;
@@ -56,6 +53,14 @@
   line-height: 1.5;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+}
+
+.slider :global(.swiper) {
+  width: 100%;
+}
+
+.slider :global(.swiper-slide) {
+  height: auto;
 }
 
 .slider :global(.swiper-pagination) {

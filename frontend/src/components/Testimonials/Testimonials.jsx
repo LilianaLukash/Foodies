@@ -29,6 +29,7 @@ const Testimonials = () => {
             modules={[Autoplay, Pagination]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
+            autoHeight
             loop={items.length > 1}
           >
             {items.map((item) => (
