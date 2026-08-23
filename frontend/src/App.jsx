@@ -9,6 +9,7 @@ import { refreshUser, selectIsRefreshing } from './redux/auth/slice';
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const RecipePage = lazy(() => import('./pages/RecipePage/RecipePage'));
 const AddRecipePage = lazy(() => import('./pages/AddRecipePage/AddRecipePage'));
+const EditRecipePage = lazy(() => import('./pages/EditRecipePage/EditRecipePage'));
 const UserPage = lazy(() => import('./pages/UserPage/UserPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
 
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <AddRecipePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="recipe/:id/edit"
+            element={
+              <PrivateRoute>
+                <EditRecipePage />
               </PrivateRoute>
             }
           />

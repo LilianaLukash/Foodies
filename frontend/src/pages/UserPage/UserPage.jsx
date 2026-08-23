@@ -9,6 +9,7 @@ import TabsList from '../../components/TabsList/TabsList';
 import ListItems from '../../components/ListItems/ListItems';
 import ListPagination from '../../components/ListPagination/ListPagination';
 import Button from '../../components/Button/Button';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { changeAvatar, selectUser } from '../../redux/auth/slice';
@@ -79,6 +80,7 @@ const UserPage = () => {
   const [page, setPage] = useState(1);
   const [list, setList] = useState({ items: [], totalPages: 1 });
   const [loading, setLoading] = useState(true);
+  const [recipeToDelete, setRecipeToDelete] = useState(null);
   const silentLoadRef = useRef(false);
 
   const refreshProfile = useCallback(async () => {
@@ -135,6 +137,23 @@ const UserPage = () => {
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
+  };
+
+  const onDeleteRequest = (recipeId) => {
+    if (tab === 'recipes') {
+      const recipe = list.items.find((item) => getId(item) === recipeId);
+      if (recipe) setRecipeToDelete(recipe);
+      return;
+    }
+
+    onDelete(recipeId);
+  };
+
+  const onConfirmDeleteRecipe = async () => {
+    if (!recipeToDelete) return;
+
+    await onDelete(getId(recipeToDelete));
+    setRecipeToDelete(null);
   };
 
   const onFollow = async (user, isFollowing) => {
@@ -233,7 +252,8 @@ const UserPage = () => {
             <ListItems
               type={tab === 'followers' || tab === 'following' ? 'users' : 'recipes'}
               items={list.items}
-              onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDelete : undefined}
+              showEdit={isOwn && tab === 'recipes'}
+              onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDeleteRequest : undefined}
               deleteLabel={tab === 'favorites' ? 'Remove from favorites' : 'Delete recipe'}
               onFollow={onFollow}
               currentUserId={getId(currentUser)}
@@ -246,6 +266,13 @@ const UserPage = () => {
           ) : null}
         </section>
       </div>
+      {recipeToDelete ? (
+        <ConfirmModal
+          text={`Are you sure you want to delete the recipe "${recipeToDelete.title}"?`}
+          onConfirm={onConfirmDeleteRecipe}
+          onCancel={() => setRecipeToDelete(null)}
+        />
+      ) : null}
     </div>
   );
 };

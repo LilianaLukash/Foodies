@@ -73,19 +73,27 @@ const toFormIngredient = (item) => ({
   img: item.img ?? item.ingredient?.img ?? '',
 });
 
-export const getRecipeInitialValues = (recipe) => {
+const resolveOptionId = (value, options = []) => {
+  if (value == null || value === '') return '';
+
+  if (typeof value === 'object') return getId(value);
+
+  const match = options.find(
+    (item) => getId(item) === value || item.name === value,
+  );
+
+  return match ? getId(match) : String(value);
+};
+
+export const getRecipeInitialValues = (recipe, { categories = [], areas = [] } = {}) => {
   if (!recipe) return { ...initialValues };
 
-  const categoryId =
-    recipe.categoryId ??
-    (typeof recipe.category === 'object' ? getId(recipe.category) : '') ??
-    '';
-  const areaId =
-    recipe.areaId ?? (typeof recipe.area === 'object' ? getId(recipe.area) : '') ?? '';
+  const categoryId = resolveOptionId(recipe.categoryId ?? recipe.category, categories);
+  const areaId = resolveOptionId(recipe.areaId ?? recipe.area, areas);
   const parsedTime = recipe.time != null && recipe.time !== '' ? Number(recipe.time) : null;
 
   return {
-    mainImage: recipe.mainImage || recipe.thumb || null,
+    mainImage: recipe.mainImage || recipe.thumb || recipe.preview || null,
     title: recipe.title ?? '',
     description: recipe.description ?? '',
     categoryId,

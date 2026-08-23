@@ -7,6 +7,7 @@ const ListItems = ({
   items,
   onDelete,
   deleteLabel,
+  showEdit = false,
   onFollow,
   emptyText,
   showUnfollowOnly = false,
@@ -28,7 +29,12 @@ const ListItems = ({
               currentUserId={currentUserId}
             />
           ) : (
-            <RecipePreview recipe={item} onDelete={onDelete} deleteLabel={deleteLabel} />
+            <RecipePreview
+              recipe={item}
+              onDelete={onDelete}
+              deleteLabel={deleteLabel}
+              showEdit={showEdit}
+            />
           )}
         </li>
       ))}

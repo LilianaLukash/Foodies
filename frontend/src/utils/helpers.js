@@ -1,5 +1,11 @@
 export const getId = (item) => item?.id ?? item?._id ?? item?.userId ?? '';
 
+export const isRecipeOwner = (recipe, user) => {
+  const userId = getId(user);
+  if (!userId || !recipe) return false;
+  return getId(recipe.owner) === userId || recipe.ownerId === userId;
+};
+
 export const getErrorMessage = (error, fallback = 'Something went wrong') => {
   const data = error?.response?.data;
   return (

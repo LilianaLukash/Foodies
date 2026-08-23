@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import toast from 'react-hot-toast';
@@ -6,7 +6,6 @@ import Button from '@components/Button/Button';
 import Icon from '@components/Icon/Icon';
 import { Input, Textarea, Select, Stepper, PhotoUpload, ConfirmModal } from '@components';
 import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { selectUser } from '@redux/auth/slice';
 import {
   fetchAreas,
   fetchCategories,
@@ -15,7 +14,7 @@ import {
   selectCategories,
   selectIngredients,
 } from '@redux/filters/slice';
-import { createRecipe, updateRecipe, deleteRecipe } from '@api/services';
+import { createRecipe, updateRecipe } from '@api/services';
 import { getErrorMessage, getId } from '@utils/helpers';
 import {
   RECIPE_LIMITS,
@@ -54,16 +53,17 @@ const AddRecipeForm = ({ recipe } = {}) => {
   const isEdit = Boolean(recipe && getId(recipe));
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const resetFormRef = useRef(null);
-  const [initialValues] = useState(() => {
-    if (isEdit) return getRecipeInitialValues(recipe);
-    return loadAddRecipeDraft() ?? getRecipeInitialValues();
-  });
+  const createDraftRef = useRef(isEdit ? null : (loadAddRecipeDraft() ?? getRecipeInitialValues()));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useAppSelector(selectUser);
   const categories = useAppSelector(selectCategories);
   const areas = useAppSelector(selectAreas);
   const ingredients = useAppSelector(selectIngredients);
+
+  const initialValues = useMemo(() => {
+    if (isEdit) return getRecipeInitialValues(recipe, { categories, areas });
+    return createDraftRef.current;
+  }, [isEdit, recipe, categories, areas]);
 
   useEffect(() => {
     if (!categories.length) dispatch(fetchCategories());
@@ -86,14 +86,11 @@ const AddRecipeForm = ({ recipe } = {}) => {
     }
   };
 
-  const handleDeleteRecipe = async () => {
-    try {
-      await deleteRecipe(getId(recipe));
-      setIsConfirmModalOpen(false);
-      navigate(getId(user) ? `/user/${getId(user)}` : '/');
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    }
+  const handleResetEdit = () => {
+    resetFormRef.current?.({
+      values: getRecipeInitialValues(recipe, { categories, areas }),
+    });
+    setIsConfirmModalOpen(false);
   };
 
   const handleResetForm = () => {
@@ -108,7 +105,7 @@ const AddRecipeForm = ({ recipe } = {}) => {
 
   const handleConfirmTrash = () => {
     if (isEdit) {
-      handleDeleteRecipe();
+      handleResetEdit();
       return;
     }
     handleResetForm();
@@ -121,7 +118,7 @@ const AddRecipeForm = ({ recipe } = {}) => {
       validationSchema={recipeFormSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, setFieldValue, setFieldError, setFieldTouched, isSubmitting, resetForm }) => {
+      {({ values, setFieldValue, setFieldError, setFieldTouched, isSubmitting, resetForm, dirty }) => {
         resetFormRef.current = resetForm;
 
         return (
@@ -281,14 +278,14 @@ const AddRecipeForm = ({ recipe } = {}) => {
                   type="button"
                   variant="outline"
                   className={css.trash}
-                  aria-label={isEdit ? 'Delete recipe' : 'Reset form'}
-                  disabled={!isEdit && !isMeaningfulRecipeDraft(values)}
+                  aria-label={isEdit ? 'Discard changes' : 'Reset form'}
+                  disabled={isEdit ? !dirty : !isMeaningfulRecipeDraft(values)}
                   onClick={handleTrashClick}
                 >
                   <Icon name="icon-trash" size={20} sizeTablet={20} />
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>
-                  Publish
+                  {isEdit ? 'Save' : 'Publish'}
                 </Button>
               </div>
             </div>
@@ -296,7 +293,7 @@ const AddRecipeForm = ({ recipe } = {}) => {
               <ConfirmModal
                 text={
                   isEdit
-                    ? 'Are you sure you want to delete this recipe?'
+                    ? 'Are you sure you want to discard all changes and restore the previous version of this recipe?'
                     : 'Are you sure you want to clear the form?'
                 }
                 onConfirm={handleConfirmTrash}
