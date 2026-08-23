@@ -18,7 +18,7 @@ const NetworkLinks = () => (
           rel="noopener noreferrer"
           aria-label={link.name}
         >
-          <Icon name={link.icon} size={20} />
+          <Icon name={link.icon} size={20} sizeTablet={20} />
         </a>
       </li>
     ))}
