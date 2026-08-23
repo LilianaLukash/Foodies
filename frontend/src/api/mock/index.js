@@ -664,6 +664,46 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     return { message: 'Deleted' };
   }
 
+  if (verb === 'patch' && oneRecipe) {
+    const current = requireAuth(db, headers);
+    const recipe = db.recipes.find((item) => item.id === oneRecipe[1]);
+    if (!recipe) throw httpError(404, 'Recipe not found');
+    if (recipe.ownerId !== current.id) throw httpError(403, 'Forbidden');
+
+    const fields = data instanceof FormData ? Object.fromEntries(data.entries()) : data;
+    const ingredients =
+      typeof fields.ingredients === 'string' ? JSON.parse(fields.ingredients) : fields.ingredients;
+
+    if (fields.title != null) recipe.title = fields.title;
+    if (fields.description != null) recipe.description = fields.description;
+    if (fields.instructions != null) recipe.instructions = fields.instructions;
+    if (fields.categoryId ?? fields.category) {
+      recipe.category = findCategoryName(fields.categoryId ?? fields.category);
+    }
+    if (fields.areaId ?? fields.area) {
+      recipe.area = findAreaName(fields.areaId ?? fields.area);
+    }
+    if (fields.time != null) recipe.time = Number(fields.time);
+    if (ingredients) {
+      recipe.ingredients = ingredients.map((item) => {
+        const found = seedIngredients.find((entry) => entry.id === item.id);
+        const name = found?.name || item.name || item.id;
+        return {
+          id: item.id,
+          name,
+          measure: item.measure || '',
+          img: found?.img || img.ingredient(name),
+        };
+      });
+    }
+
+    writeDb(db);
+    return {
+      ...withOwner(db, recipe),
+      isFavorite: Boolean(current.favoriteIds.includes(recipe.id)),
+    };
+  }
+
   if (verb === 'post' && path === '/recipes') {
     const current = requireAuth(db, headers);
     const fields = data instanceof FormData ? Object.fromEntries(data.entries()) : data;

@@ -3,7 +3,12 @@ import Icon from '../Icon/Icon';
 import { getId, recipeImage } from '../../utils/helpers';
 import css from './RecipePreview.module.css';
 
-const RecipePreview = ({ recipe, onDelete, deleteLabel = 'Delete recipe' }) => {
+const RecipePreview = ({
+  recipe,
+  onDelete,
+  deleteLabel = 'Delete recipe',
+  showEdit = false,
+}) => {
   const id = getId(recipe);
 
   return (
@@ -17,6 +22,11 @@ const RecipePreview = ({ recipe, onDelete, deleteLabel = 'Delete recipe' }) => {
         <Link to={`/recipe/${id}`} aria-label="Open recipe">
           <Icon name="icon-arrow-up-right" size={18} />
         </Link>
+        {showEdit ? (
+          <Link to={`/recipe/${id}/edit`} aria-label="Edit recipe">
+            <Icon name="icon-pencil" size={18} />
+          </Link>
+        ) : null}
         {onDelete ? (
           <button type="button" aria-label={deleteLabel} onClick={() => onDelete(id)}>
             <Icon name="icon-trash" size={18} />

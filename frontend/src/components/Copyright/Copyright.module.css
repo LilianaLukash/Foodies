@@ -3,10 +3,8 @@
   line-height: 1.43;
   letter-spacing: -0.02em;
   color: var(--color-dark);
-}
 
-@media screen and (min-width: 768px) {
-  .text {
+  @media (--tablet) {
     font-size: 16px;
     line-height: 1.5;
   }

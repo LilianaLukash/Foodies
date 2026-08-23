@@ -5,8 +5,8 @@ import css from './Footer.module.css';
 
 const Footer = () => (
   <footer className={css.footer}>
-    <div className={`container ${css.bottom}`}>
-      <div className={css.row}>
+    <div className="container">
+      <div className={css.footerNav}>
         <Logo />
         <NetworkLinks />
       </div>
