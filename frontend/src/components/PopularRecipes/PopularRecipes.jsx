@@ -4,7 +4,7 @@ import css from './PopularRecipes.module.css';
 
 const PopularRecipes = ({ recipes = [], onFavoriteChange }) => (
   <section className={css.section}>
-    <MainTitle>Popular recipes</MainTitle>
+    <h2 className={css.title}>Popular recipes</h2>
     <ul className={css.list}>
       {recipes.map((recipe) => (
         <li key={recipe.id || recipe._id}>

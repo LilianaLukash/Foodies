@@ -3,6 +3,15 @@
   margin-bottom: 64px;
 }
 
+.title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.333;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
 .list {
   display: grid;
   gap: 24px;
