@@ -3,6 +3,24 @@
   text-align: center;
 }
 
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  max-width: 343px;
+  margin: 0 auto;
+}
+
+.reviews {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  width: 100%;
+}
+
 .header {
   display: flex;
   flex-direction: column;
@@ -12,6 +30,7 @@
 
 .eyebrow {
   max-width: 261px;
+  margin: 0;
   color: var(--color-dark);
   font-size: 14px;
   font-weight: 500;
@@ -29,34 +48,37 @@
   color: var(--color-black);
 }
 
-.body {
-  position: relative;
-  max-width: 343px;
-  margin: 64px auto 0;
-  text-align: center;
-}
-
 .quotes {
   position: absolute;
-  top: 0;
+  top: 80px;
   left: 8px;
-  display: block;
-  width: 40px !important;
-  height: 32px !important;
-  color: var(--color-gray);
+  width: 40px;
+  height: 32px;
+  color: var(--color-gray-light);
   pointer-events: none;
+  z-index: 1;
 }
 
-.carousel {
+.quotes .quotesIcon {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper {
   width: 100%;
 }
 
 .quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
   margin: 0;
 }
 
 .quote p {
-  margin: 0 0 0;
+  margin: 0;
+  width: 100%;
   color: var(--color-black);
   font-size: 18px;
   font-weight: 500;
@@ -66,7 +88,6 @@
 
 .quote cite {
   display: block;
-  margin-top: 64px;
   font-style: normal;
   font-size: 16px;
   font-weight: 800;
@@ -76,34 +97,45 @@
   color: var(--color-black);
 }
 
-.carousel :global(.swiper) {
-  width: 100%;
-}
+.root .pagination {
+  --swiper-pagination-bottom: auto;
+  --swiper-pagination-top: auto;
+  --swiper-pagination-bullet-width: 14px;
+  --swiper-pagination-bullet-height: 14px;
+  --swiper-pagination-bullet-horizontal-gap: 4px;
+  --swiper-pagination-bullet-inactive-color: var(--color-gray-light);
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-color: var(--color-black);
 
-.carousel :global(.swiper-slide) {
-  height: auto;
-}
-
-.carousel :global(.swiper-pagination) {
-  position: relative;
-  margin-top: 40px;
-}
-
-.carousel :global(.swiper-pagination-bullet) {
-  width: 14px;
+  position: static;
+  inset: auto;
+  left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 58px;
   height: 14px;
-  margin: 0 6px !important;
-  background: var(--color-gray-light);
-  opacity: 1;
+  margin: 0;
+  transform: none;
 }
 
-.carousel :global(.swiper-pagination-bullet-active) {
-  background: var(--color-black);
+.root .pagination :global(.swiper-pagination-bullet) {
+  flex-shrink: 0;
+  width: var(--swiper-pagination-bullet-width);
+  height: var(--swiper-pagination-bullet-height);
 }
 
 @media screen and (min-width: 768px) {
   .section {
     padding: 100px 0;
+  }
+
+  .root {
+    max-width: 704px;
+  }
+
+  .reviews {
+    gap: 80px;
   }
 
   .eyebrow {
@@ -116,16 +148,15 @@
     line-height: 44px;
   }
 
-  .body {
-    max-width: 704px;
-    margin-top: 80px;
+  .quotes {
+    top: 76px;
+    left: 40px;
+    width: 59px;
+    height: 48px;
   }
 
-  .quotes {
-    top: -8px;
-    left: 40px;
-    width: 59px !important;
-    height: 48px !important;
+  .quote {
+    gap: 80px;
   }
 
   .quote p {
@@ -134,14 +165,15 @@
   }
 
   .quote cite {
-    margin-top: 80px;
     font-size: 20px;
   }
 
-  .carousel :global(.swiper-pagination-bullet) {
-    width: 16px;
+  .root .pagination {
+    --swiper-pagination-bullet-width: 16px;
+    --swiper-pagination-bullet-height: 16px;
+    --swiper-pagination-bullet-horizontal-gap: 6px;
+    width: 72px;
     height: 16px;
-    margin: 0 8px !important;
   }
 }
 
@@ -150,7 +182,7 @@
     padding: 120px 0;
   }
 
-  .body {
+  .root {
     max-width: 822px;
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -13,6 +13,8 @@ import css from './Testimonials.module.css';
 const Testimonials = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [swiperReady, setSwiperReady] = useState(false);
+  const paginationRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,6 +38,10 @@ const Testimonials = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!loading && items.length) setSwiperReady(true);
+  }, [loading, items.length]);
+
   if (loading) {
     return (
       <section className={css.section}>
@@ -51,32 +57,48 @@ const Testimonials = () => {
   return (
     <section className={css.section}>
       <div className="container">
-        <div className={css.header}>
-          <p className={css.eyebrow}>What our customer say</p>
-          <h2 className={css.title}>Testimonials</h2>
-        </div>
+        <div className={css.root}>
+          <div className={css.reviews}>
+            <div className={css.header}>
+              <p className={css.eyebrow}>What our customer say</p>
+              <h2 className={css.title}>Testimonials</h2>
+            </div>
 
-        <div className={css.body}>
-          <Icon name="icon-quotes" className={css.quotes} width={59} height={48} />
+            <span className={css.quotes}>
+              <Icon name="icon-quotes" className={css.quotesIcon} width={59} height={48} />
+            </span>
 
-          <div className={css.carousel}>
-            <Swiper
-              modules={[Autoplay, Pagination]}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              autoHeight
-              loop={items.length > 1}
-            >
-              {items.map((item) => (
-                <SwiperSlide key={item.id || item._id}>
-                  <blockquote className={css.quote}>
-                    <p>{item.testimonial || item.quote}</p>
-                    <cite>{item.owner?.name || item.author}</cite>
-                  </blockquote>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            {swiperReady ? (
+              <Swiper
+                className={css.swiper}
+                modules={[Autoplay, Pagination]}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                pagination={{
+                  el: paginationRef.current,
+                  clickable: true,
+                }}
+                autoHeight
+                onSwiper={(swiper) => {
+                  const syncHeight = () => swiper.updateAutoHeight(0);
+                  syncHeight();
+                  requestAnimationFrame(syncHeight);
+                  document.fonts?.ready?.then(syncHeight);
+                }}
+                onSlideChange={(swiper) => swiper.updateAutoHeight(0)}
+              >
+                {items.map((item) => (
+                  <SwiperSlide key={item.id || item._id}>
+                    <blockquote className={css.quote}>
+                      <p>{item.testimonial || item.quote}</p>
+                      <cite>{item.owner?.name || item.author}</cite>
+                    </blockquote>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : null}
           </div>
+
+          <div ref={paginationRef} className={css.pagination} />
         </div>
       </div>
     </section>
