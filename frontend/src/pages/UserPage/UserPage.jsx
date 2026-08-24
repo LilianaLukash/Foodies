@@ -36,7 +36,7 @@ const EMPTY_FOLLOWERS =
 const EMPTY_FOLLOWING =
   'Your account currently has no subscriptions to other users. Learn more about our users and select those whose content interests you.';
 const EMPTY_OWN_RECIPES =
-  'Nothing has been added to your recipes list yet. Create your first recipe and share your culinary art with others.';
+  'Nothing has been added to your recipes list yet. Please browse our recipes and add your favorites for easy access in the future.';
 const EMPTY_USER_RECIPES =
   'This user has not added any recipes yet. Follow the profile to be the first to know when a new one shows up.';
 const EMPTY_FAVORITES =

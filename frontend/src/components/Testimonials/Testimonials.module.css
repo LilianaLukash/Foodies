@@ -3,37 +3,48 @@
   text-align: center;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
 .eyebrow {
-  color: var(--color-black);
+  max-width: 261px;
+  color: var(--color-dark);
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.43;
+  line-height: 20px;
   letter-spacing: -0.02em;
 }
 
 .title {
-  margin-top: 16px;
+  margin: 0;
   font-size: 28px;
   font-weight: 800;
-  line-height: 1.14;
+  line-height: 32px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  color: var(--color-black);
 }
 
-/* Title → content block */
-.content {
+.body {
+  position: relative;
   max-width: 343px;
-  margin: 32px auto 0;
+  margin: 64px auto 0;
   text-align: center;
 }
 
-/* Quotes sit above the carousel as their own row (left-aligned). */
 .quotes {
+  position: absolute;
+  top: 0;
+  left: 8px;
   display: block;
-  width: 40px;
-  height: 32px;
-  margin: 0 0 16px;
+  width: 40px !important;
+  height: 32px !important;
   color: var(--color-gray);
+  pointer-events: none;
 }
 
 .carousel {
@@ -45,19 +56,24 @@
 }
 
 .quote p {
-  margin: 0 0 24px;
+  margin: 0 0 0;
+  color: var(--color-black);
   font-size: 18px;
-  line-height: 1.33;
+  font-weight: 500;
+  line-height: 24px;
   letter-spacing: -0.02em;
 }
 
 .quote cite {
+  display: block;
+  margin-top: 64px;
   font-style: normal;
   font-size: 16px;
   font-weight: 800;
-  line-height: 1.5;
+  line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  color: var(--color-black);
 }
 
 .carousel :global(.swiper) {
@@ -76,6 +92,7 @@
 .carousel :global(.swiper-pagination-bullet) {
   width: 14px;
   height: 14px;
+  margin: 0 6px !important;
   background: var(--color-gray-light);
   opacity: 1;
 }
@@ -89,24 +106,42 @@
     padding: 100px 0;
   }
 
-  .title {
-    font-size: 40px;
-    line-height: 1.1;
+  .eyebrow {
+    font-size: 16px;
+    line-height: 24px;
   }
 
-  .content {
+  .title {
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .body {
     max-width: 704px;
-    margin-top: 40px;
+    margin-top: 80px;
   }
 
   .quotes {
-    width: 59px;
-    height: 48px;
-    margin: 0 0 20px 40px;
+    top: -8px;
+    left: 40px;
+    width: 59px !important;
+    height: 48px !important;
   }
 
   .quote p {
-    margin-bottom: 32px;
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  .quote cite {
+    margin-top: 80px;
+    font-size: 20px;
+  }
+
+  .carousel :global(.swiper-pagination-bullet) {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px !important;
   }
 }
 
@@ -115,7 +150,7 @@
     padding: 120px 0;
   }
 
-  .content {
+  .body {
     max-width: 822px;
   }
 }
