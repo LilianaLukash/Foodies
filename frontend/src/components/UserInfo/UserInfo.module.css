@@ -19,8 +19,9 @@
 
 .camera {
   position: absolute;
-  right: -4px;
-  bottom: 0;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;

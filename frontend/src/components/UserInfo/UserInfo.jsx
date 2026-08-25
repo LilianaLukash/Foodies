@@ -11,7 +11,7 @@ const UserInfo = ({ user, isOwn, onAvatarChange }) => {
         <Avatar src={user.avatar} alt={user.name} size={120} />
         {isOwn ? (
           <label className={css.camera}>
-            <Icon name="icon-camera" size={16} />
+            <Icon name="icon-plus" size={16} />
             <input
               className="visually-hidden"
               type="file"
