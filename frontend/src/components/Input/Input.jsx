@@ -1,13 +1,7 @@
 import clsx from 'clsx';
 import { useField } from 'formik';
+import { INPUT_TYPE } from './Input.constants';
 import css from './Input.module.css';
-
-export const INPUT_TYPE = {
-  text: 'text',
-  number: 'number',
-  email: 'email',
-  password: 'password'
-};
 
 const BaseInput = ({
   label,

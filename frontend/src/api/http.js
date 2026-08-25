@@ -13,6 +13,27 @@ const axiosAPI = axios.create({
 
 let accessToken = storage.get(STORAGE_KEYS.ACCESS_TOKEN);
 let refreshToken = storage.get(STORAGE_KEYS.REFRESH_TOKEN);
+let refreshPromise = null;
+
+const getTokenExpiresAt = (token) => {
+  try {
+    const payload = token.split('.')[1];
+    const normalizedPayload = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const decodedPayload = JSON.parse(atob(normalizedPayload));
+
+    return decodedPayload.exp ? decodedPayload.exp * 1000 : null;
+  } catch {
+    return null;
+  }
+};
+
+const isTokenExpired = (token) => {
+  if (!token) return true;
+
+  const expiresAt = getTokenExpiresAt(token);
+
+  return expiresAt ? expiresAt <= Date.now() + 30000 : false;
+};
 
 export const setAuthTokens = (tokens = {}) => {
   accessToken = tokens.accessToken || null;
@@ -37,15 +58,48 @@ export const getAccessToken = () => accessToken;
 
 export const getRefreshToken = () => refreshToken;
 
-axiosAPI.interceptors.request.use((config) => {
+const refreshAccessToken = () => {
+  if (!refreshToken) return Promise.reject(new Error('No refresh token'));
+
+  if (!refreshPromise) {
+    refreshPromise = axios
+      .post(`${BASE_URL}/auth/refresh`, {
+        refreshToken,
+      })
+      .then((response) => {
+        const newAccessToken = response.data.accessToken;
+        const newRefreshToken = response.data.refreshToken || refreshToken;
+
+        setAuthTokens({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
+
+        return newAccessToken;
+      })
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+
+  return refreshPromise;
+};
+
+axiosAPI.interceptors.request.use(async (config) => {
+  if (
+    config.url !== '/auth/refresh' &&
+    refreshToken &&
+    isTokenExpired(accessToken)
+  ) {
+    await refreshAccessToken();
+  }
+
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
 
   return config;
 });
-
-let refreshPromise = null;
 
 axiosAPI.interceptors.response.use(
   (response) => response,
@@ -65,27 +119,7 @@ axiosAPI.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      if (!refreshPromise) {
-        refreshPromise = axios
-          .post(`${BASE_URL}/auth/refresh`, {
-            refreshToken,
-          })
-          .then((response) => {
-            const newAccessToken = response.data.accessToken;
-
-            setAuthTokens({
-              accessToken: newAccessToken,
-              refreshToken,
-            });
-
-            return newAccessToken;
-          })
-          .finally(() => {
-            refreshPromise = null;
-          });
-      }
-
-      const newAccessToken = await refreshPromise;
+      const newAccessToken = await refreshAccessToken();
 
       originalRequest.headers.Authorization =
         `Bearer ${newAccessToken}`;
