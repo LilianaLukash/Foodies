@@ -252,6 +252,7 @@ const UserPage = () => {
             <ListItems
               type={tab === 'followers' || tab === 'following' ? 'users' : 'recipes'}
               items={list.items}
+              showEdit={isOwn && tab === 'recipes'}
               onDelete={isOwn && (tab === 'recipes' || tab === 'favorites') ? onDeleteRequest : undefined}
               deleteLabel={tab === 'favorites' ? 'Remove from favorites' : 'Delete recipe'}
               onFollow={onFollow}
