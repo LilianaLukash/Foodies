@@ -19,6 +19,7 @@ const selectStyles = {
   }),
   valueContainer: (base) => ({
     ...base,
+    display: 'grid',
     padding: 0,
     margin: 0,
     minHeight: 'unset',
@@ -29,14 +30,17 @@ const selectStyles = {
     padding: 0,
     outline: 'none',
     boxShadow: 'none',
+    gridArea: '1 / 1',
   }),
   singleValue: (base) => ({
     ...base,
     margin: 0,
+    gridArea: '1 / 1',
   }),
   placeholder: (base) => ({
     ...base,
     margin: 0,
+    gridArea: '1 / 1',
   }),
   indicatorsContainer: (base) => ({
     ...base,
