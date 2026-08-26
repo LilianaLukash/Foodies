@@ -60,10 +60,10 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (_, thunkAPI) => {
+  async () => {
     try {
       await logoutUser();
-    } catch (error) {
+    } catch {
       // Even if the server logout fails, clear the local session.
     } finally {
       clearAuthTokens();

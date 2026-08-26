@@ -1,4 +1,5 @@
-export { default as Input, INPUT_TYPE } from './Input/Input';
+export { default as Input } from './Input/Input';
+export { INPUT_TYPE } from './Input/Input.constants';
 export { default as Select } from './Select/Select';
 export { default as Textarea } from './Textarea/Textarea';
 export { default as Stepper } from './Stepper/Stepper';
