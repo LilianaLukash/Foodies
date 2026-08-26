@@ -39,10 +39,17 @@
 
   .empty,
   .emptyUsers {
-    margin-top: 140px;
+    margin-top: 100px;
     max-width: 610px;
     color: var(--color-dark);
     font-size: 16px;
     line-height: 24px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .empty,
+  .emptyUsers {
+    margin-top: 140px;
   }
 }
