@@ -1,5 +1,4 @@
 import RecipeCard from '../RecipeCard/RecipeCard';
-import MainTitle from '../MainTitle/MainTitle';
 import css from './PopularRecipes.module.css';
 
 const PopularRecipes = ({ recipes = [], onFavoriteChange }) => (
