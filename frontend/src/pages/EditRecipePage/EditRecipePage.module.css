@@ -1,0 +1,16 @@
+.state {
+  margin-top: 24px;
+}
+
+.state p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.state a {
+  display: inline-block;
+  margin-top: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
