@@ -99,7 +99,7 @@ VITE_USE_MOCK=false
 
 | Шлях | Сторінка | Доступ |
 | --- | --- | --- |
-| `/` | HomePage | public |
+| `/` | HomePage (категорії; `?category=:id` — список рецептів) | public |
 | `/recipe/:id` | RecipePage | public |
 | `/recipe/add` | AddRecipePage | private (`/add` → redirect сюди) |
 | `/recipe/:id/edit` | EditRecipePage | private (лише власник) |
