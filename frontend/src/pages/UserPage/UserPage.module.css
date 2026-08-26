@@ -1,11 +1,18 @@
 .page {
   padding-bottom: 20px;
+  overflow-x: hidden;
 }
 
 .layout {
   display: grid;
   gap: 40px;
   margin-top: 40px;
+  min-width: 0;
+}
+
+.layout aside,
+.layout section {
+  min-width: 0;
 }
 
 .cta {
@@ -16,9 +23,8 @@
 
 @media screen and (min-width: 1440px) {
   .layout {
-    grid-template-columns: 394px 1fr;
+    grid-template-columns: 394px minmax(0, 1fr);
     align-items: start;
     gap: 40px;
   }
 }
-

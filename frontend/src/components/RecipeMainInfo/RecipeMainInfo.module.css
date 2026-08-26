@@ -22,7 +22,7 @@
 .meta {
   display: flex;
   gap: 8px;
-  margin: 20px 0 16px;
+  margin: 20px 0 20px;
 }
 
 .meta span {
@@ -32,6 +32,7 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 1.29;
+  color: var(--color-gray);
 }
 
 .description {
@@ -44,7 +45,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 20px;
   text-align: left;
 }
 
