@@ -93,24 +93,24 @@
 }
 
 .select :global(.foodies__value-container) {
-  display: flex;
+  display: grid;
   align-items: center;
-  flex-wrap: nowrap;
   flex: 1;
   padding: 0;
   margin: 0;
   min-height: unset;
   min-width: 0;
-  gap: 0;
   overflow: hidden;
 }
 
 .select :global(.foodies__placeholder),
-.select :global(.foodies__single-value) {
+.select :global(.foodies__single-value),
+.select :global(.foodies__input-container) {
+  grid-area: 1 / 1;
   margin: 0;
-  position: static;
-  transform: none;
-  max-width: 100%;
+}
+
+.select :global(.foodies__placeholder) {
   color: var(--color-gray);
   white-space: nowrap;
   overflow: hidden;
@@ -119,13 +119,21 @@
 
 .select :global(.foodies__single-value) {
   color: var(--color-black);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select :global(.foodies__control--is-focused) :global(.foodies__placeholder) {
+  display: none;
 }
 
 .select :global(.foodies__input-container) {
   display: flex;
   align-items: center;
-  margin: 0;
   padding: 0;
+  width: auto !important;
 }
 
 .select :global(.foodies__input) {

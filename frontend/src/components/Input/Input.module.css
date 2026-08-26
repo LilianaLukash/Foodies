@@ -43,6 +43,10 @@
   }
 }
 
+.wrap:focus-within .placeholder {
+  display: none;
+}
+
 .required {
   margin-left: 4px;
   color: var(--color-error);

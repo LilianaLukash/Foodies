@@ -182,6 +182,8 @@ const AddRecipeForm = ({ recipe } = {}) => {
                       className={css.ingMeasure}
                     />
                   </div>
+                  <ErrorMessage name="ingredientId" component="p" className={css.error} />
+                  <ErrorMessage name="measure" component="p" className={css.error} />
 
                   <Button
                     type="button"
@@ -208,7 +210,7 @@ const AddRecipeForm = ({ recipe } = {}) => {
                       if (!found) return;
 
                       if (values.ingredients.some((item) => item.id === getId(found))) {
-                        setFieldError('ingredientId', 'Ingredient already added');
+                        setFieldError('ingredientId', 'Already selected in ingredients');
                         setFieldTouched('ingredientId', true, false);
                         return;
                       }
