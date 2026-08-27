@@ -6,7 +6,7 @@ import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
 import { useAppDispatch } from '../../redux/hooks';
 import { login } from '../../redux/auth/slice';
-import { closeModal } from '../../redux/modals/slice';
+import { closeModal, openModal } from '../../redux/modals/slice';
 import { getErrorMessage } from '../../utils/helpers';
 import css from '../AuthForm/AuthForm.module.css';
 
@@ -62,6 +62,13 @@ const SignInForm = () => {
             </button>
             <ErrorMessage className={css.error} name="password" component="span" />
           </label>
+          <button
+            className={css.forgot}
+            type="button"
+            onClick={() => dispatch(openModal('forgotPassword'))}
+          >
+            Forgot password?
+          </button>
           <Button type="submit" disabled={isSubmitting}>
             Sign in
           </Button>

@@ -4,6 +4,9 @@ import { normalizeUser, unwrapList, unwrapPage, PAGE_LIMIT } from '../utils/help
 export const registerUser = (payload) => http.post('/auth/register', payload);
 export const loginUser = (payload) => http.post('/auth/login', payload);
 export const logoutUser = () => http.post('/auth/logout');
+export const forgotPassword = (email) => http.post('/auth/forgot-password', { email });
+export const resetPassword = ({ token, password }) =>
+  http.post('/auth/reset-password', { token, password });
 
 export const getCurrentUser = () => http.get('/users/me');
 export const getUserById = (id) => http.get(`/users/${id}`);
