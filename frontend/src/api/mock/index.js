@@ -367,12 +367,19 @@ const createSeed = () => ({
   users: usersSeed.map((user) => ({ ...user, followingIds: [...user.followingIds], favoriteIds: [...user.favoriteIds] })),
   recipes: recipesSeed.map((recipe) => ({ ...recipe, ingredients: [...recipe.ingredients] })),
   sessions: {},
+  resetTokens: {},
 });
+
+const RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
 
 const readDb = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const db = JSON.parse(raw);
+      db.resetTokens = db.resetTokens || {};
+      return db;
+    }
   } catch {
     /* ignore */
   }
@@ -499,6 +506,33 @@ export const mockRequest = async ({ method, url, data, params, headers }) => {
     db.sessions[user.id] = token;
     writeDb(db);
     return { accessToken: token };
+  }
+
+  if (verb === 'post' && path === '/auth/forgot-password') {
+    const user = db.users.find((item) => item.email === data?.email);
+    if (user) {
+      const token = `reset.${user.id}.${Date.now()}`;
+      db.resetTokens[token] = { userId: user.id, expiresAt: Date.now() + RESET_TOKEN_TTL_MS };
+      writeDb(db);
+      const resetUrl = `${window.location.origin}/reset-password?token=${token}`;
+      // No real mailbox in mock mode — surface the link so it can still be tested end to end.
+      console.info(`[mock] Password reset link for ${user.email}: ${resetUrl}`);
+    }
+    return { message: 'If this email is registered, a reset link has been sent' };
+  }
+
+  if (verb === 'post' && path === '/auth/reset-password') {
+    const entry = db.resetTokens[data?.token];
+    if (!entry || entry.expiresAt < Date.now()) {
+      throw httpError(401, 'Invalid or expired reset token');
+    }
+    const user = db.users.find((item) => item.id === entry.userId);
+    if (!user) throw httpError(401, 'Invalid or expired reset token');
+    user.password = data.password;
+    delete db.resetTokens[data.token];
+    delete db.sessions[user.id];
+    writeDb(db);
+    return { message: 'Password has been reset successfully' };
   }
 
   if (verb === 'post' && path === '/auth/logout') {

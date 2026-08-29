@@ -11,6 +11,7 @@ const RecipePage = lazy(() => import('./pages/RecipePage/RecipePage'));
 const AddRecipePage = lazy(() => import('./pages/AddRecipePage/AddRecipePage'));
 const EditRecipePage = lazy(() => import('./pages/EditRecipePage/EditRecipePage'));
 const UserPage = lazy(() => import('./pages/UserPage/UserPage'));
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage/ResetPasswordPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
           />
           <Route path="recipe/:id" element={<RecipePage />} />
           <Route path="add" element={<Navigate to="/recipe/add" replace />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
           <Route
             path="user/:id"
             element={

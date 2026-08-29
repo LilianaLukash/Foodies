@@ -7,6 +7,7 @@ import Modal from '../Modal/Modal';
 import SignInModal from '../SignInModal/SignInModal';
 import SignUpModal from '../SignUpModal/SignUpModal';
 import LogOutModal from '../LogOutModal/LogOutModal';
+import ForgotPasswordModal from '../ForgotPasswordModal/ForgotPasswordModal';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { closeModal, selectModalType } from '../../redux/modals/slice';
 import { fetchAreas, fetchCategories, fetchIngredients } from '../../redux/filters/slice';
@@ -37,6 +38,7 @@ const SharedLayout = () => {
           {modal === 'signIn' ? <SignInModal /> : null}
           {modal === 'signUp' ? <SignUpModal /> : null}
           {modal === 'logOut' ? <LogOutModal /> : null}
+          {modal === 'forgotPassword' ? <ForgotPasswordModal /> : null}
         </Modal>
       ) : null}
     </>
