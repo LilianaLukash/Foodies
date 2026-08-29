@@ -70,7 +70,7 @@
 }
 
 .value {
-  color: var(--color-gray);
+  color: var(--color-black);
   font-family: var(--font-main);
   font-size: 14px;
   font-weight: 500;
