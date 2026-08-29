@@ -17,6 +17,8 @@ const BaseStepper = ({
   onBlur,
   min = STEPPER.MIN,
   max,
+  fineUntil = STEPPER.FINE_UNTIL,
+  fineStep = STEPPER.FINE_STEP,
   step = STEPPER.STEP,
   emptyLabel = STEPPER.EMPTY_LABEL,
   className,
@@ -34,8 +36,17 @@ const BaseStepper = ({
     onChange?.(Math.max(min, clampedMax));
   };
 
-  const decrease = () => commit(current - step);
-  const increase = () => commit(current + step);
+  const nextValue = () =>
+    current < fineUntil ? current + fineStep : current + step;
+
+  const prevValue = () => {
+    if (current <= fineUntil) return current - fineStep;
+    const candidate = current - step;
+    return candidate < fineUntil ? fineUntil : candidate;
+  };
+
+  const decrease = () => commit(prevValue());
+  const increase = () => commit(nextValue());
 
   const atMin = current <= min;
   const atMax = max != null && current >= max;

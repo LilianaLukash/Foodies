@@ -164,7 +164,7 @@ const BaseSelect = ({
         isSearchable={isSearchable}
         isClearable={isClearable}
         closeMenuOnSelect
-        blurInputOnSelect
+        blurInputOnSelect={false}
         aria-invalid={Boolean(error)}
         aria-required={required}
       />
@@ -179,7 +179,10 @@ const FormikSelect = ({ name, error, ...props }) => {
       {...props}
       name={name}
       value={field.value}
-      onChange={helpers.setValue}
+      onChange={(next) => {
+        helpers.setValue(next);
+        helpers.setTouched(true, false);
+      }}
       onBlur={() => helpers.setTouched(true)}
       error={error ?? (meta.touched ? meta.error : '')}
     />
