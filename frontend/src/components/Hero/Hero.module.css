@@ -10,7 +10,7 @@
   height: 796px;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 16px 16px 0;
+  padding: 24px 16px 0;
   background: var(--color-black);
   color: var(--color-white);
   border-radius: var(--radius-md);
@@ -106,7 +106,7 @@
 @media screen and (min-width: 768px) {
   .inner {
     height: 992px;
-    padding: 20px 32px 0;
+    padding: 36px 32px 0;
     border-radius: var(--radius-lg);
   }
 
@@ -165,7 +165,7 @@
 @media screen and (min-width: 1440px) {
   .inner {
     height: 970px;
-    padding: 20px 60px 0;
+    padding: 40px 60px 0;
   }
 
   .content {
