@@ -106,10 +106,6 @@
 }
 
 @media screen and (min-width: 768px) {
-  .header {
-    padding-top: 36px;
-  }
-
   .inner {
     position: relative;
     min-height: 50px;
@@ -125,11 +121,5 @@
   .burger,
   .drawer {
     display: none;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .header {
-    padding-top: 40px;
   }
 }
