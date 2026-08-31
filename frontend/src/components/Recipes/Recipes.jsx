@@ -8,6 +8,7 @@ import RecipePagination from '../RecipePagination/RecipePagination';
 import Loader from '../Loader/Loader';
 import { asPage, getRecipes } from '../../api/services';
 import { getErrorMessage, getId, PAGE_LIMIT } from '../../utils/helpers';
+import Icon from '../Icon/Icon';
 import css from './Recipes.module.css';
 
 const Recipes = ({ category, onBack }) => {
@@ -53,7 +54,8 @@ const Recipes = ({ category, onBack }) => {
     <section className={css.section}>
       <div className="container">
         <button className={css.back} type="button" onClick={onBack}>
-          ← Back
+          <Icon name="icon-arrow-left" size={18} />
+          <span>Back</span>
         </button>
         <MainTitle>{categoryName}</MainTitle>
         <Subtitle>
