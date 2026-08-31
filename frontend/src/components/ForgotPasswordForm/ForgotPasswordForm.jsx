@@ -18,7 +18,11 @@ const ForgotPasswordForm = ({ onSent }) => {
   if (sentTo) {
     return (
       <p className={successCss.success}>
-        We sent a password reset link to <strong>{sentTo}</strong>. Check your inbox to continue.
+        We sent a password reset link to
+        <br />
+        <strong>{sentTo}</strong>
+        <br />
+        Check your inbox to continue.
       </p>
     );
   }
