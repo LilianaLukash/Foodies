@@ -6,6 +6,7 @@ import Button from '../Button/Button';
 import { forgotPassword } from '../../api/services';
 import { getErrorMessage } from '../../utils/helpers';
 import css from '../AuthForm/AuthForm.module.css';
+import successCss from './ForgotPasswordForm.module.css';
 
 const schema = Yup.object({
   email: Yup.string().email('Enter a valid email').required('Email is required'),
@@ -16,7 +17,7 @@ const ForgotPasswordForm = ({ onSent }) => {
 
   if (sentTo) {
     return (
-      <p className={css.form}>
+      <p className={successCss.success}>
         We sent a password reset link to <strong>{sentTo}</strong>. Check your inbox to continue.
       </p>
     );
