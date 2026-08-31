@@ -25,23 +25,19 @@ const Header = ({ embedded = false }) => {
     <header className={clsx(css.header, embedded && css.embedded)}>
       <div className={clsx(!embedded && 'container', css.inner)}>
         <Logo onClick={() => setMenuOpen(false)} />
-        {isLoggedIn ? (
-          <div className={css.desktopNav}>
-            <Nav onDark={embedded} />
-          </div>
-        ) : null}
+        <div className={css.desktopNav}>
+          <Nav onDark={embedded} />
+        </div>
         <div className={css.right}>
           {isLoggedIn ? <UserBar /> : <AuthBar />}
-          {isLoggedIn ? (
-            <button
-              className={css.burger}
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setMenuOpen(true)}
-            >
-              <Icon name="icon-menu" size={28} />
-            </button>
-          ) : null}
+          <button
+            className={css.burger}
+            type="button"
+            aria-label="Open menu"
+            onClick={() => setMenuOpen(true)}
+          >
+            <Icon name="icon-menu" size={28} />
+          </button>
         </div>
       </div>
 
