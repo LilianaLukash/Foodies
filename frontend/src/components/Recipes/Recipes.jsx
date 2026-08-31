@@ -7,7 +7,7 @@ import RecipeList from '../RecipeList/RecipeList';
 import RecipePagination from '../RecipePagination/RecipePagination';
 import Loader from '../Loader/Loader';
 import { asPage, getRecipes } from '../../api/services';
-import { getErrorMessage, PAGE_LIMIT } from '../../utils/helpers';
+import { getErrorMessage, getId, PAGE_LIMIT } from '../../utils/helpers';
 import css from './Recipes.module.css';
 
 const Recipes = ({ category, onBack }) => {
@@ -40,6 +40,15 @@ const Recipes = ({ category, onBack }) => {
     load();
   }, [categoryId, filters, page]);
 
+  const onFavoriteChange = (recipeId, isFavorite) => {
+    setData((prev) => ({
+      ...prev,
+      items: prev.items.map((item) =>
+        getId(item) === recipeId ? { ...item, isFavorite } : item,
+      ),
+    }));
+  };
+
   return (
     <section className={css.section}>
       <div className="container">
@@ -60,7 +69,13 @@ const Recipes = ({ category, onBack }) => {
             }}
           />
           <div>
-            {loading ? <Loader /> : <RecipeList recipes={data.items} variant="feed" />}
+            {loading ? <Loader /> : (
+              <RecipeList
+                recipes={data.items}
+                variant="feed"
+                onFavoriteChange={onFavoriteChange}
+              />
+            )}
             <RecipePagination page={page} totalPages={data.totalPages} onChange={setPage} />
           </div>
         </div>
