@@ -1,5 +1,5 @@
 .page {
-  padding-bottom: 20px;
+  padding-bottom: 160px;
   overflow-x: hidden;
 }
 
@@ -27,7 +27,17 @@
   margin: 20px auto 0;
 }
 
+@media screen and (min-width: 768px) {
+  .page {
+    padding-bottom: 160px;
+  }
+}
+
 @media screen and (min-width: 1440px) {
+  .page {
+    padding-bottom: 120px;
+  }
+
   .layout {
     grid-template-columns: 394px minmax(0, 1fr);
     align-items: start;
