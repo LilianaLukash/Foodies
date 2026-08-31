@@ -15,10 +15,16 @@
   min-width: 0;
 }
 
+.layout aside {
+  justify-self: center;
+  width: 100%;
+  max-width: 394px;
+}
+
 .cta {
   width: 100%;
   max-width: 394px;
-  margin-top: 20px;
+  margin: 20px auto 0;
 }
 
 @media screen and (min-width: 1440px) {
@@ -26,5 +32,9 @@
     grid-template-columns: 394px minmax(0, 1fr);
     align-items: start;
     gap: 40px;
+  }
+
+  .layout aside {
+    justify-self: start;
   }
 }

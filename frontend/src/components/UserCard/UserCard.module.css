@@ -81,9 +81,9 @@
 
 @media screen and (min-width: 768px) {
   .card {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(220px, 1fr) auto 42px;
     min-height: 100px;
-    column-gap: 60px;
+    column-gap: 20px;
   }
 
   .avatarWrap img {
@@ -111,7 +111,10 @@
   .recipes {
     display: flex;
     gap: 12px;
-    justify-self: start;
+    justify-self: end;
+    max-width: 324px;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .recipes img {
@@ -138,6 +141,14 @@
 }
 
 @media screen and (min-width: 1440px) {
+  .card {
+    column-gap: 60px;
+  }
+
+  .recipes {
+    max-width: 436px;
+  }
+
   .recipes img:nth-child(4) {
     display: block;
   }
